@@ -31,6 +31,7 @@ export const MyUserContextProvider = (props: Props) => {
     isLoading: isLoadingUser,
     supabaseClient: supabase,
   } = useSessionContext();
+
   const user = useSupaUser();
   const accessToken = session?.access_token ?? null;
   const [isLoadingData, setIsLoadingData] = useState(false);
