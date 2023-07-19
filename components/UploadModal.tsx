@@ -1,5 +1,5 @@
 import Modal from "./Modal";
-import useAuthModal from "@/hooks/useAuthModal";
+import useUploadModal from "@/hooks/useUploadModal";
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -10,9 +10,9 @@ import {
   useSupabaseClient,
 } from "@supabase/auth-helpers-react";
 
-const AuthModal = () => {
+const UploadModal = () => {
   const supabaseClient = useSupabaseClient();
-  const { isOpen, onClose } = useAuthModal();
+  const { isOpen, onClose } = useUploadModal();
   const onChange = (open: boolean) => {
     if (!open) {
       onClose();
@@ -30,32 +30,14 @@ const AuthModal = () => {
 
   return (
     <Modal
-      title="Welcome back"
-      description="Login to your account"
+      title="Add a song"
+      description="Upload an mp3 file"
       isOpen={isOpen}
       onChange={onChange}
     >
-      <Auth
-        theme="dark"
-        magicLink={true}
-        providers={["github", "google"]}
-        supabaseClient={supabaseClient}
-        appearance={{
-          theme: ThemeSupa,
-          variables: {
-            default: {
-              colors: {
-                // bgcolor of sign button before hover
-                brand: "#404040",
-                // bgcolor of sign button after hover
-                brandAccent: "#22c55e",
-              },
-            },
-          },
-        }}
-      />
+      <div>form</div>
     </Modal>
   );
 };
 
-export default AuthModal;
+export default UploadModal;
