@@ -16,7 +16,7 @@ export default function Home() {
       <Header>
         {/* Welcome Back */}
         <div className="mb-2">
-          <h1 className="text-2xl font-semibold text-white">welcome Back</h1>
+          <h1 className="text-3xl font-semibold text-white">welcome Back</h1>
         </div>
         {/* ListItems */}
         <div
