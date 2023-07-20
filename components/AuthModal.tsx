@@ -12,12 +12,14 @@ import {
 
 const AuthModal = () => {
   const supabaseClient = useSupabaseClient();
-  const { isOpen, onClose } = useAuthModal();
+  const { isOpen, onClose, viewType, logIn, modalDescription } = useAuthModal();
   const onChange = (open: boolean) => {
     if (!open) {
       onClose();
+      logIn();
     }
   };
+
   const { session } = useSessionContext();
   const router = useRouter();
 
@@ -31,11 +33,12 @@ const AuthModal = () => {
   return (
     <Modal
       title="Welcome back"
-      description="Login to your account"
+      description={modalDescription}
       isOpen={isOpen}
       onChange={onChange}
     >
       <Auth
+        view={viewType}
         theme="dark"
         magicLink={true}
         providers={["github", "google"]}

@@ -52,3 +52,17 @@ export interface Subscription {
   trial_end?: string;
   prices?: Price;
 }
+
+declare type ViewSignIn = "sign_in";
+declare type ViewSignUp = "sign_up";
+declare type ViewMagicLink = "magic_link";
+declare type ViewForgottenPassword = "forgotten_password";
+declare type ViewUpdatePassword = "update_password";
+declare type ViewVerifyOtp = "verify_otp";
+export type ViewType =
+  | ViewSignIn
+  | ViewSignUp
+  | ViewMagicLink
+  | ViewForgottenPassword
+  | ViewUpdatePassword
+  | ViewVerifyOtp;

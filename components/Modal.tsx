@@ -29,12 +29,9 @@ const Modal: React.FC<ModalProps> = ({
             translate-y-[-50%]
             top-[50%]
             left-[50%]
-            w-full
-            md:w-[90vw]
-            md:max-w-[450px]
-            h-full
-            md:h-auto
-            md:max-h-[85vh]
+            w-[90vw]
+            md:w-[450px]
+            h-auto
             rounded-md
             bg-neutral-800
             drop-shadow-md
@@ -42,10 +39,24 @@ const Modal: React.FC<ModalProps> = ({
             focus:outline-none
             "
         >
-          <Dialog.Title className="text-xl text-center font-bold mb-4">
+          <Dialog.Title
+            className="
+              text-xl
+              text-center
+              font-bold
+              mb-4
+            "
+          >
             {title}
           </Dialog.Title>
-          <Dialog.Description className="text-sm text-center leading-normal mb-5">
+          <Dialog.Description
+            className="
+              text-sm
+              text-center
+              leading-normal
+              mb-5
+            "
+          >
             {description}
           </Dialog.Description>
           <div>{children}</div>
