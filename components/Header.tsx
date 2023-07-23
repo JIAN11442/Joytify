@@ -6,12 +6,12 @@ import { BiSearch } from "react-icons/bi";
 import { FaUserAlt } from "react-icons/fa";
 import { RxArrowLeft, RxArrowRight } from "react-icons/rx";
 import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 import Button from "./Button";
+import { toast } from "react-hot-toast";
 import { useUser } from "@/hooks/useUser";
 import useAuthModal from "@/hooks/useAuthModal";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 interface HeaderProps {
   children: React.ReactNode;
@@ -20,13 +20,12 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ children, className }) => {
   const router = useRouter();
-  const AuthModal = useAuthModal();
+  const authModal = useAuthModal();
   const { user } = useUser();
   const supabaseClient = useSupabaseClient();
 
   const handleLogout = async () => {
     const { error } = await supabaseClient.auth.signOut();
-    // TODO: Reset any playing songs
 
     if (error) {
       toast.error(error.message);
@@ -113,26 +112,26 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
         </div>
         {/* SignIn Button && SignUp Button */}
 
-        {user ? (
-          <div className="items-center flex gap-x-4">
-            <Button onClick={handleLogout} className="px-4 py-2 bg-white">
-              Logout
-            </Button>
-            <Button
-              onClick={() => router.push("/account")}
-              className="bg-white"
-            >
-              <FaUserAlt />
-            </Button>
-          </div>
-        ) : (
-          <div className="flex gap-x-3 items-center justify-between">
+        <div className="flex gap-x-3 items-center justify-between">
+          {user ? (
+            <div className="flex gap-x-3">
+              <Button onClick={handleLogout} className="px-4 py-2 bg-white">
+                Logout
+              </Button>
+              <Button
+                onClick={() => router.push("/account")}
+                className="bg-white"
+              >
+                <FaUserAlt />
+              </Button>
+            </div>
+          ) : (
             <>
               <div>
                 <Button
                   onClick={() => {
-                    AuthModal.signUp();
-                    AuthModal.onOpen();
+                    authModal.SignUp();
+                    authModal.onOpen();
                   }}
                   className="
                   bg-transparent
@@ -145,8 +144,8 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
               <div>
                 <Button
                   onClick={() => {
-                    AuthModal.logIn();
-                    AuthModal.onOpen();
+                    authModal.LogIn();
+                    authModal.onOpen();
                   }}
                   className="bg-white px-4 py-1.5"
                 >
@@ -154,8 +153,8 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
                 </Button>
               </div>
             </>
-          </div>
-        )}
+          )}
+        </div>
       </div>
       {children}
     </div>
