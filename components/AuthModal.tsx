@@ -1,46 +1,49 @@
+"use client";
+
 import Modal from "./Modal";
-import useAuthModal from "@/hooks/useAuthModal";
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import {
-  useSessionContext,
   useSupabaseClient,
+  useSessionContext,
 } from "@supabase/auth-helpers-react";
+import useAuthModal from "@/hooks/useAuthModal";
 
 const AuthModal = () => {
+  const authModal = useAuthModal();
   const supabaseClient = useSupabaseClient();
-  const { isOpen, onClose, viewType, logIn, modalDescription } = useAuthModal();
+  const session = useSessionContext();
+  const router = useRouter();
   const onChange = (open: boolean) => {
     if (!open) {
-      onClose();
-      logIn();
+      router.refresh();
+      authModal.onClose();
+      authModal.LogIn();
     }
   };
-
-  const { session } = useSessionContext();
-  const router = useRouter();
 
   useEffect(() => {
     if (session) {
       router.refresh();
-      onClose();
+      authModal.onClose();
+      authModal.LogIn();
     }
-  }, [session, router, onClose]);
+  }, [session]);
 
   return (
     <Modal
-      title="Welcome back"
-      description={modalDescription}
-      isOpen={isOpen}
+      title="Welcome Back"
+      description="Login to your account"
+      isOpen={authModal.isOpen}
       onChange={onChange}
     >
       <Auth
-        view={viewType}
+        view={authModal.viewType}
         theme="dark"
-        magicLink={true}
+        magicLink
         providers={["github", "google"]}
         supabaseClient={supabaseClient}
         appearance={{
@@ -48,9 +51,7 @@ const AuthModal = () => {
           variables: {
             default: {
               colors: {
-                // bgcolor of sign button before hover
                 brand: "#404040",
-                // bgcolor of sign button after hover
                 brandAccent: "#22c55e",
               },
             },

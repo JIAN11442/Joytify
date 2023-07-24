@@ -1,60 +1,74 @@
-import * as Dialog from "@radix-ui/react-dialog";
+"use client";
+
 import { IoMdClose } from "react-icons/io";
+import * as Dialog from "@radix-ui/react-dialog";
+import useAuthModal from "@/hooks/useAuthModal";
 
 interface ModalProps {
-  children: React.ReactNode;
+  title: String | null;
+  description: String | null;
   isOpen: boolean;
   onChange: (open: boolean) => void;
-  title: string | null;
-  description: string | null;
+  children: React.ReactNode;
+  disabled?: boolean | undefined;
 }
 
 const Modal: React.FC<ModalProps> = ({
-  children,
-  isOpen,
-  onChange,
   title,
   description,
+  isOpen,
+  onChange,
+  children,
+  disabled,
 }) => {
+  const authModal = useAuthModal();
+
   return (
     <Dialog.Root open={isOpen} defaultOpen={isOpen} onOpenChange={onChange}>
       <Dialog.Portal>
-        <Dialog.Overlay className="bg-neutral-900/90 fixed inset-0" />
+        <Dialog.Overlay
+          className="
+            fixed
+            inset-0
+            bg-neutral-900/90
+        "
+        />
         <Dialog.Content
           className="
             fixed
             border
             border-neutral-700
-            translate-x-[-50%]
-            translate-y-[-50%]
+            bg-neutral-800
             top-[50%]
             left-[50%]
-            w-[90vw]
-            md:w-[450px]
-            h-auto
-            rounded-md
-            bg-neutral-800
-            drop-shadow-md
+            translate-x-[-50%]
+            translate-y-[-50%]
             p-[25px]
+            rounded-md
+            w-[450px]
+            max-w-[90vw]
+            h-auto
+            hover:outline-none
             focus:outline-none
-            "
+        "
         >
           <Dialog.Title
             className="
-              text-xl
-              text-center
-              font-bold
-              mb-4
+                text-xl
+                font-bold
+                text-center
+                mb-4
             "
           >
             {title}
           </Dialog.Title>
           <Dialog.Description
             className="
-              text-sm
-              text-center
-              leading-normal
-              mb-5
+                text-sm
+                font-light
+                text-[#22c55e]
+                text-center
+                mb-5
             "
           >
             {description}
@@ -62,20 +76,21 @@ const Modal: React.FC<ModalProps> = ({
           <div>{children}</div>
           <Dialog.Close asChild>
             <button
+              onClick={authModal.onClose}
+              disabled={disabled}
               className="
-              absolute
-              top-[10px]
-              right-[10px]
-              text-neutral-400
-              hover:text-white
-              h-[25px]
-              w-[25px]
-              flex
-              rounded-full
-              items-center
-              justify-center
-              focus:outline-none
-              "
+                absolute
+                top-[10px]
+                right-[10px]
+                p-2
+                rounded-full
+                items-center
+                justify-center
+                focus:outline-none
+                text-neutral-400
+                disabled:hidden
+                hover:text-white
+            "
             >
               <IoMdClose size={20} />
             </button>
