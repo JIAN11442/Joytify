@@ -1,5 +1,9 @@
 import Stripe from "stripe";
 
+export const ItemTypes = {
+  SONG: "song",
+};
+
 export interface Song {
   id: string;
   user_id: string;

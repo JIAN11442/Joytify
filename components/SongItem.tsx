@@ -1,11 +1,13 @@
 "use client";
 
+import PlayButton from "./PlayButton";
+import { ItemTypes, Song } from "@/types";
 import useUploadImage from "@/hooks/useLoadImage";
-import { Song } from "@/types";
 
 import Image from "next/image";
-import { FaPlay } from "react-icons/fa";
-import PlayButton from "./PlayButton";
+import { useDrag } from "react-dnd";
+import { getEmptyImage } from "react-dnd-html5-backend";
+import { useEffect } from "react";
 
 interface SongItemProps {
   data: Song;
@@ -14,10 +16,18 @@ interface SongItemProps {
 const SongItem: React.FC<SongItemProps> = ({ data }) => {
   const imagePath = useUploadImage(data);
 
-  console.log(imagePath);
+  const [, dragRef, dragPreview] = useDrag(() => ({
+    type: ItemTypes.SONG,
+    item: { data: data },
+  }));
+
+  useEffect(() => {
+    dragPreview(getEmptyImage(), { captureDraggingState: true });
+  }, []);
 
   return (
     <div
+      ref={dragRef}
       className="
         relative
         group

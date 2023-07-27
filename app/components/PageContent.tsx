@@ -3,14 +3,20 @@
 import { Song } from "@/types";
 import SongItem from "@/components/SongItem";
 
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import CustomDragLayer from "@/components/CustomDragLayer";
+
 interface PageContentProps {
   songs: Song[];
 }
 
 const PageContent: React.FC<PageContentProps> = ({ songs }) => {
   return (
-    <div
-      className="
+    <DndProvider backend={HTML5Backend}>
+      <CustomDragLayer />
+      <div
+        className="
         grid
         grid-cols-2
         sm:grid-cols-3
@@ -21,11 +27,12 @@ const PageContent: React.FC<PageContentProps> = ({ songs }) => {
         gap-4
         mt-4
     "
-    >
-      {songs.map((item) => (
-        <SongItem data={item} />
-      ))}
-    </div>
+      >
+        {songs.map((item, index) => (
+          <SongItem key={index} data={item} />
+        ))}
+      </div>
+    </DndProvider>
   );
 };
 

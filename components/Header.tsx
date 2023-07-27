@@ -44,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
     >
       <div className="flex w-full mb-4 items-center justify-between">
         {/* RxArrowLeft Button && RxArrowRight Button*/}
-        <div className="hidden md:flex gap-x-3 items-center">
+        <div className="flex gap-x-3 items-center">
           {/* RxArrowLeft Button */}
           <button
             onClick={() => router.back()}
@@ -80,8 +80,7 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
           </button>
         </div>
         {/* HiHome Button && BiSearch Button */}
-        <div className="flex md:hidden gap-x-3 item-center">
-          {/* HiHome Button */}
+        {/* <div className="flex md:hidden gap-x-3 item-center">
           <button
             className="
                 p-2
@@ -95,7 +94,6 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
           >
             <HiHome size={20} color="black" />
           </button>
-          {/* BiSearch Button */}
           <button
             className="
                 p-2
@@ -109,7 +107,7 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
           >
             <BiSearch size={20} color="black" />
           </button>
-        </div>
+        </div> */}
         {/* SignIn Button && SignUp Button */}
 
         <div className="flex gap-x-3 items-center justify-between">

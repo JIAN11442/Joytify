@@ -7,6 +7,8 @@ interface SidebarItemProps {
   label: string;
   active?: boolean;
   href: string;
+  isCollapse: boolean;
+  setIsCollapse: any;
 }
 
 const SidebarItem: React.FC<SidebarItemProps> = ({
@@ -14,6 +16,8 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   label,
   active,
   href,
+  isCollapse,
+  setIsCollapse,
 }) => {
   return (
     <Link
@@ -22,21 +26,22 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
         `
         flex
         flex-row
-        h-auto
+        text-neutral-400
+        hover:text-white
+        transition
         w-full
-        gap-x-4
-        items-center
+        h-auto
         text-md
         font-medium
         cursor-pointer
-        hover:text-white
-        transition
-        text-neutral-400`,
-        active && "text-white"
+        gap-x-4
+        items-center 
+      `,
+        active ? "text-white" : ""
       )}
     >
       <Icon size={26} />
-      <p className="truncate w-full">{label}</p>
+      {!isCollapse && <p className="truncate font-bold">{label}</p>}
     </Link>
   );
 };

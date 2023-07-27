@@ -1,12 +1,18 @@
 "use client";
 
 import { TbPlaylist } from "react-icons/tb";
+import { LuLibrary } from "react-icons/lu";
 import { AiOutlinePlus } from "react-icons/ai";
 import useAuthModal from "@/hooks/useAuthModal";
 import { useUser } from "@/hooks/useUser";
 import useUploadModal from "@/hooks/useUploadModal";
 
-const Library = () => {
+interface LibraryProps {
+  isCollapse: boolean;
+  setIsCollapse: any;
+}
+
+const Library: React.FC<LibraryProps> = ({ isCollapse, setIsCollapse }) => {
   const { user } = useUser();
   const authModal = useAuthModal();
   const uploadModal = useUploadModal();
@@ -21,35 +27,66 @@ const Library = () => {
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="flex items-center justify-between px-5 py-4">
-        {/* inline-flex 是讓父元素寬度隨子元素内容調整 */}
-        <div className="inline-flex items-center gap-x-4">
-          <TbPlaylist className="text-neutral-400" size={26} />
-          <p className="text-md font-medium text-neutral-400">Your Library</p>
-        </div>
-        <AiOutlinePlus
-          onClick={onClick}
+    <div className="flex flex-col gap-y-4">
+      {/* Library */}
+      <div
+        className={`
+          flex
+          items-center
+          ${isCollapse ? "justify-center" : "justify-between"}
+      `}
+      >
+        <div
+          onClick={() => {
+            setIsCollapse(!isCollapse);
+          }}
           className="
-             text-neutral-400
+          flex
+          flex-row
+          items-center
+          gap-x-4
+          text-neutral-400
+          hover:text-white
+          transition
+          cursor-pointer
+        "
+        >
+          <LuLibrary size={26} />
+          {!isCollapse && <p className="text-md font-bold">Your Library</p>}
+        </div>
+        {!isCollapse && (
+          <div
+            onClick={onClick}
+            className="
+              p-2
+              bg-transparent
+              rounded-full
+              text-neutral-400
+             hover:bg-neutral-800/80
              hover:text-white
              transition
              cursor-pointer
             "
-          size={20}
-        />
+          >
+            <AiOutlinePlus size={22} />
+          </div>
+        )}
       </div>
-      <div
-        className="
+
+      {/* List Of Songs */}
+      {!isCollapse && (
+        <div
+          className="
             flex
             flex-col
             gap-y-2
             mt-4
             px-3
         "
-      >
-        List of Songs
-      </div>
+        >
+          List of Songs
+        </div>
+      )}
     </div>
   );
 };

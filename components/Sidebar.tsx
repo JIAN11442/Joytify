@@ -1,18 +1,20 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { useMemo } from "react";
+import Box from "./Box";
+import Library from "./Library";
+import SidebarItem from "./SidebarItem";
+
+import { useMemo, useState } from "react";
 import { HiHome } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
-import Box from "./Box";
-import SidebarItem from "./SidebarItem";
-import Library from "./Library";
+import { usePathname } from "next/navigation";
 
 interface SidebarProps {
   children: React.ReactNode;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ children }) => {
+  const [isCollapse, setIsCollapse] = useState(false);
   const pathname = usePathname();
   const routes = useMemo(
     () => [
@@ -36,26 +38,33 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
     <div className="flex h-full">
       {/* Sidebar */}
       <div
-        className="
-        hidden 
-        md:flex
+        className={`
         bg-black
         h-full
-        w-[300px]
+        ${isCollapse ? "w-[100px]" : "w-[300px]"}
+        ${isCollapse ? "flex" : "hidden md:flex"}
+        transition
         flex-col
         p-2
         gap-y-2
-        "
+        `}
       >
-        <Box>
+        <Box className="h-auto p-2">
           <div className="flex flex-col py-4 px-5 gap-y-4">
             {routes.map((item) => (
-              <SidebarItem key={item.label} {...item} />
+              <SidebarItem
+                key={item.label}
+                {...item}
+                isCollapse={isCollapse}
+                setIsCollapse={setIsCollapse}
+              />
             ))}
           </div>
         </Box>
-        <Box className="overflow-y-auto h-full">
-          <Library />
+        <Box className="overflow-y-auto h-full p-2">
+          <div className="flex flex-col py-4 px-5 gap-y-4">
+            <Library isCollapse={isCollapse} setIsCollapse={setIsCollapse} />
+          </div>
         </Box>
       </div>
       {/* Main Content */}
