@@ -6,13 +6,20 @@ import { AiOutlinePlus } from "react-icons/ai";
 import useAuthModal from "@/hooks/useAuthModal";
 import { useUser } from "@/hooks/useUser";
 import useUploadModal from "@/hooks/useUploadModal";
+import { Song } from "@/types";
+import MediaItem from "./MediaItem";
 
 interface LibraryProps {
   isCollapse: boolean;
   setIsCollapse: any;
+  songsByUserId: Song[];
 }
 
-const Library: React.FC<LibraryProps> = ({ isCollapse, setIsCollapse }) => {
+const Library: React.FC<LibraryProps> = ({
+  isCollapse,
+  setIsCollapse,
+  songsByUserId,
+}) => {
   const { user } = useUser();
   const authModal = useAuthModal();
   const uploadModal = useUploadModal();
@@ -27,13 +34,14 @@ const Library: React.FC<LibraryProps> = ({ isCollapse, setIsCollapse }) => {
   };
 
   return (
-    <div className="flex flex-col gap-y-4">
+    <div className="flex flex-col">
       {/* Library */}
       <div
         className={`
           flex
           items-center
           ${isCollapse ? "justify-center" : "justify-between"}
+          px-5
       `}
       >
         <div
@@ -51,8 +59,8 @@ const Library: React.FC<LibraryProps> = ({ isCollapse, setIsCollapse }) => {
           cursor-pointer
         "
         >
-          <LuLibrary size={26} />
-          {!isCollapse && <p className="text-md font-bold">Your Library</p>}
+          <LuLibrary size={30} />
+          {!isCollapse && <p className="text-lg font-bold">Your Library</p>}
         </div>
         {!isCollapse && (
           <div
@@ -74,19 +82,19 @@ const Library: React.FC<LibraryProps> = ({ isCollapse, setIsCollapse }) => {
       </div>
 
       {/* List Of Songs */}
-      {!isCollapse && (
-        <div
-          className="
+      <div
+        className="
             flex
             flex-col
             gap-y-2
             mt-4
             px-3
         "
-        >
-          List of Songs
-        </div>
-      )}
+      >
+        {songsByUserId.map((song, index) => (
+          <MediaItem key={index} song={song} isCollapse={isCollapse} />
+        ))}
+      </div>
     </div>
   );
 };

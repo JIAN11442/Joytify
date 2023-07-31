@@ -59,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
                 transition
             "
           >
-            <RxArrowLeft size={22} />
+            <RxArrowLeft size={25} />
           </button>
 
           {/* RxArrowRight Button */}
@@ -76,7 +76,7 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
                 transition
             "
           >
-            <RxArrowRight size={22} />
+            <RxArrowRight size={25} />
           </button>
         </div>
         {/* HiHome Button && BiSearch Button */}

@@ -71,7 +71,7 @@ const SongItem: React.FC<SongItemProps> = ({ data }) => {
           className="
           w-full
           truncate
-          text-sm
+          text-[15px]
           font-semibold
         "
         >

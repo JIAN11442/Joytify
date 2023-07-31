@@ -1,6 +1,7 @@
 "use client";
 
 import Box from "./Box";
+import { Song } from "@/types";
 import Library from "./Library";
 import SidebarItem from "./SidebarItem";
 
@@ -8,12 +9,12 @@ import { useMemo, useState } from "react";
 import { HiHome } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
 import { usePathname } from "next/navigation";
-
 interface SidebarProps {
   children: React.ReactNode;
+  songsByUserId: Song[];
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ children }) => {
+const Sidebar: React.FC<SidebarProps> = ({ children, songsByUserId }) => {
   const [isCollapse, setIsCollapse] = useState(false);
   const pathname = usePathname();
   const routes = useMemo(
@@ -62,8 +63,12 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           </div>
         </Box>
         <Box className="overflow-y-auto h-full p-2">
-          <div className="flex flex-col py-4 px-5 gap-y-4">
-            <Library isCollapse={isCollapse} setIsCollapse={setIsCollapse} />
+          <div className="flex flex-col py-4 gap-y-4">
+            <Library
+              isCollapse={isCollapse}
+              setIsCollapse={setIsCollapse}
+              songsByUserId={songsByUserId}
+            />
           </div>
         </Box>
       </div>

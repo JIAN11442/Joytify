@@ -35,13 +35,13 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
         font-medium
         cursor-pointer
         gap-x-4
-        items-center 
+        items-center
       `,
         active ? "text-white" : ""
       )}
     >
-      <Icon size={26} />
-      {!isCollapse && <p className="truncate font-bold">{label}</p>}
+      <Icon size={30} />
+      {!isCollapse && <p className="truncate font-bold text-lg">{label}</p>}
     </Link>
   );
 };
