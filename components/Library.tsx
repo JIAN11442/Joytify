@@ -39,41 +39,49 @@ const Library: React.FC<LibraryProps> = ({
       <div
         className={`
           flex
+          flex-row
           items-center
           ${isCollapse ? "justify-center" : "justify-between"}
           px-5
+          relative
       `}
       >
         <div
           onClick={() => {
             setIsCollapse(!isCollapse);
           }}
-          className="
-          flex
-          flex-row
-          items-center
-          gap-x-4
-          text-neutral-400
-          hover:text-white
-          transition
-          cursor-pointer
-        "
+          className={`
+            flex
+            flex-row
+            items-center
+            ${!isCollapse ? "gap-x-4" : ""}
+            text-neutral-400
+            hover:text-white
+            transition
+            cursor-pointer
+          `}
         >
-          <LuLibrary size={30} />
-          {!isCollapse && <p className="text-lg font-bold">Your Library</p>}
+          <div>
+            <LuLibrary size={30} />
+          </div>
+          <div>
+            {!isCollapse && <p className="text-lg font-bold">Your Library</p>}
+          </div>
         </div>
         {!isCollapse && (
           <div
             onClick={onClick}
             className="
+              absolute
+              right-3
               p-2
               bg-transparent
               rounded-full
               text-neutral-400
-             hover:bg-neutral-800/80
-             hover:text-white
-             transition
-             cursor-pointer
+              hover:bg-neutral-800/80
+              hover:text-white
+              transition
+              cursor-pointer
             "
           >
             <AiOutlinePlus size={22} />

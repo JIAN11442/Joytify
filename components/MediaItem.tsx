@@ -23,14 +23,14 @@ const MediaItem: React.FC<MediaItemProps> = ({ song, isCollapse }) => {
             ${isCollapse ? "" : " hover:bg-neutral-800/50 transition"}
             w-full
             rounded-md
-            py-1
+            p-1
           `}
         >
           <div
             className={`
                 relative
-                min-h-[48px]
-                min-w-[48px]
+                min-h-[45px]
+                min-w-[45px]
                 overflow-hidden
             ${
               isCollapse
@@ -80,15 +80,19 @@ const MediaItem: React.FC<MediaItemProps> = ({ song, isCollapse }) => {
           )}
         </div>
       ) : (
-        <div>
-          <p
-            className="
-                text-neutral-500   
+        <>
+          {!isCollapse && (
+            <div className="p-3">
+              <p
+                className="
+                text-neutral-600   
             "
-          >
-            {song.title}
-          </p>
-        </div>
+              >
+                {song.title}
+              </p>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

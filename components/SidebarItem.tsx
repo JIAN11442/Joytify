@@ -40,7 +40,9 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
         active ? "text-white" : ""
       )}
     >
-      <Icon size={30} />
+      <div>
+        <Icon size={30} />
+      </div>
       {!isCollapse && <p className="truncate font-bold text-lg">{label}</p>}
     </Link>
   );
