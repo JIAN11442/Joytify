@@ -1,31 +1,44 @@
 "use client";
 
-import { TbPlaylist } from "react-icons/tb";
+import { useSpring, animated } from "react-spring";
 import { LuLibrary } from "react-icons/lu";
+import { TbPlaylist } from "react-icons/tb";
+import { FiSearch } from "react-icons/fi";
 import { AiOutlinePlus } from "react-icons/ai";
-import useAuthModal from "@/hooks/useAuthModal";
-import { useUser } from "@/hooks/useUser";
-import useUploadModal from "@/hooks/useUploadModal";
+import { useEffect, useRef, useState } from "react";
+
+import Input from "./Input";
 import { Song } from "@/types";
 import MediaItem from "./MediaItem";
+import { useUser } from "@/hooks/useUser";
+import useCollapse from "@/hooks/useCollapse";
+import useAuthModal from "@/hooks/useAuthModal";
+import useUploadModal from "@/hooks/useUploadModal";
 
 interface LibraryProps {
-  isCollapse: boolean;
-  setIsCollapse: any;
   songsByUserId: Song[];
 }
 
-const Library: React.FC<LibraryProps> = ({
-  isCollapse,
-  setIsCollapse,
-  songsByUserId,
-}) => {
+const Library: React.FC<LibraryProps> = ({ songsByUserId }) => {
   const { user } = useUser();
   const authModal = useAuthModal();
   const uploadModal = useUploadModal();
+  const { isCollapse, setIsCollapse } = useCollapse();
+  const [activeSearchBar, setActiveSearchBar] = useState(false);
+  const searchIconRef = useRef<HTMLDivElement>(null);
+  const searchBarRef = useRef<HTMLDivElement>(null);
+
+  const fadeInAnimation = useSpring({
+    from: {
+      opacity: 0,
+    },
+    to: {
+      opacity: activeSearchBar ? 1 : 0,
+    },
+    config: { duration: 300 },
+  });
 
   const onClick = () => {
-    // Add Your Library
     if (!user) {
       authModal.onOpen();
     } else {
@@ -33,8 +46,32 @@ const Library: React.FC<LibraryProps> = ({
     }
   };
 
+  useEffect(() => {
+    const handleClick = (event: any) => {
+      if (
+        searchIconRef.current &&
+        searchBarRef.current &&
+        !searchIconRef.current.contains(event.target) &&
+        !searchBarRef.current.contains(event.target)
+      ) {
+        setActiveSearchBar(false);
+      }
+    };
+    document.addEventListener("click", handleClick);
+
+    return () => {
+      document.removeEventListener("click", handleClick);
+    };
+  }, []);
+
   return (
-    <div className="flex flex-col">
+    <div
+      className={`
+        flex
+        flex-col
+        ${isCollapse ? "gap-y-3" : ""}
+      `}
+    >
       {/* Library */}
       <div
         className={`
@@ -73,7 +110,7 @@ const Library: React.FC<LibraryProps> = ({
             onClick={onClick}
             className="
               absolute
-              right-3
+              right-1
               p-2
               bg-transparent
               rounded-full
@@ -89,18 +126,110 @@ const Library: React.FC<LibraryProps> = ({
         )}
       </div>
 
+      {/* Search & Sort*/}
+      {!isCollapse && (
+        <div
+          className="
+          p-3
+          flex
+          flex-row
+          w-full
+          h-fit
+          gap-x-3
+          items-center
+          justify-between
+        "
+        >
+          {/* Search */}
+          <div
+            className="
+            flex
+            w-full
+            h-[45px]
+            relative
+            items-center
+          "
+          >
+            {/* Search Icon */}
+            <div
+              ref={searchIconRef}
+              onClick={() => {
+                setActiveSearchBar(!activeSearchBar);
+              }}
+              className={`
+              p-2
+              z-10
+              group
+              rounded-full
+              transition
+              cursor-pointer
+              ${activeSearchBar ? "absolute" : "hover:bg-neutral-700/50"}
+              
+            `}
+            >
+              <FiSearch
+                size={20}
+                className="
+                text-neutral-400 
+                group-hover:text-white
+              "
+              />
+            </div>
+            {/* SearchBar */}
+            <animated.div ref={searchBarRef} style={fadeInAnimation}>
+              <Input
+                autoFocus
+                className={`
+                py-1.5
+                pl-10
+                rounded-d=md
+                bg-neutral-700/50
+                placeholder:text-[15px]
+                placeholder:text-neutral-500
+                ${activeSearchBar ? "flex" : "hidden"}
+              `}
+                placeholder="Search in your library"
+              />
+            </animated.div>
+          </div>
+          {/* Sort */}
+          <div
+            className={`
+              flex
+              ${activeSearchBar ? "w-5" : "w-fit"}
+            `}
+          >
+            <div
+              className="
+                w-full
+                "
+            >
+              <p
+                className="
+                  w-full
+                  font-semibold
+                  text-neutral-400
+                  truncate
+              "
+              >
+                Recents
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* List Of Songs */}
       <div
         className="
             flex
             flex-col
             gap-y-2
-            mt-4
-            px-3
+            px-2
         "
       >
         {songsByUserId.map((song, index) => (
-          <MediaItem key={index} song={song} isCollapse={isCollapse} />
+          <MediaItem key={index} song={song} />
         ))}
       </div>
     </div>

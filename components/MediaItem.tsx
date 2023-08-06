@@ -1,14 +1,16 @@
-import useUploadImage from "@/hooks/useLoadImage";
-import { Song } from "@/types";
 import Image from "next/image";
+
+import { Song } from "@/types";
+import useCollapse from "@/hooks/useCollapse";
+import useUploadImage from "@/hooks/useLoadImage";
 
 interface MediaItemProps {
   song: Song;
-  isCollapse: boolean;
 }
 
-const MediaItem: React.FC<MediaItemProps> = ({ song, isCollapse }) => {
+const MediaItem: React.FC<MediaItemProps> = ({ song }) => {
   const imagePath = useUploadImage(song);
+  const { isCollapse, setIsCollapse } = useCollapse();
 
   return (
     <div>
@@ -29,8 +31,8 @@ const MediaItem: React.FC<MediaItemProps> = ({ song, isCollapse }) => {
           <div
             className={`
                 relative
-                min-h-[45px]
-                min-w-[45px]
+                min-h-[48px]
+                min-w-[48px]
                 overflow-hidden
             ${
               isCollapse
@@ -59,19 +61,19 @@ const MediaItem: React.FC<MediaItemProps> = ({ song, isCollapse }) => {
             >
               <p
                 className="
-              truncate
-              text-sm
-              font-medium
-              text-white
+                  truncate
+                  text-sm
+                  font-semibold
+                  text-neutral-300
             "
               >
                 {song.title}
               </p>
               <p
                 className="
-                text-neutral-400
-                text-sm
-                truncate
+                  text-neutral-400
+                  text-[13px]
+                  truncate
             "
               >
                 {song.author}

@@ -1,14 +1,14 @@
 import Link from "next/link";
-import { twMerge } from "tailwind-merge";
 import { IconType } from "react-icons";
+import { twMerge } from "tailwind-merge";
+
+import useCollapse from "@/hooks/useCollapse";
 
 interface SidebarItemProps {
   icon: IconType;
   label: string;
   active?: boolean;
   href: string;
-  isCollapse: boolean;
-  setIsCollapse: any;
 }
 
 const SidebarItem: React.FC<SidebarItemProps> = ({
@@ -16,9 +16,9 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   label,
   active,
   href,
-  isCollapse,
-  setIsCollapse,
 }) => {
+  const { isCollapse, setIsCollapse } = useCollapse();
+
   return (
     <Link
       href={href}

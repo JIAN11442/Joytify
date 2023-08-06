@@ -2,6 +2,7 @@ import getSongs from "@/actions/getSongs";
 import Header from "@/components/Header";
 import ListItem from "@/components/ListItem";
 import PageContent from "../components/PageContent";
+import { useRef } from "react";
 
 export default async function Home() {
   const revalidate = 0;
@@ -10,12 +11,12 @@ export default async function Home() {
   return (
     <div
       className="
-      bg-neutral-900
-      rounded-lg
-      h-full
-      w-full
-      overflow-hidden
-      overflow-y-auto
+        bg-neutral-900
+        rounded-lg
+        h-full
+        w-full
+        overflow-hidden
+        overflow-y-auto
     "
     >
       <Header>
