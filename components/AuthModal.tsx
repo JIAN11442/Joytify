@@ -13,15 +13,15 @@ import Modal from "./Modal";
 import useAuthModal from "@/hooks/useAuthModal";
 
 const AuthModal = () => {
-  const authModal = useAuthModal();
-  const supabaseClient = useSupabaseClient();
-  const session = useSessionContext();
   const router = useRouter();
+  const authModal = useAuthModal();
+  const session = useSessionContext();
+  const supabaseClient = useSupabaseClient();
   const onChange = (open: boolean) => {
     if (!open) {
-      router.refresh();
       authModal.onClose();
-      authModal.LogIn();
+      authModal.logIn();
+      router.refresh();
     }
   };
 
@@ -29,14 +29,14 @@ const AuthModal = () => {
     if (session) {
       router.refresh();
       authModal.onClose();
-      authModal.LogIn();
+      authModal.logIn();
     }
   }, [session]);
 
   return (
     <Modal
       title="Welcome Back"
-      description="Login to your account"
+      description={authModal.description}
       isOpen={authModal.isOpen}
       onChange={onChange}
     >

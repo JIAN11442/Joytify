@@ -63,8 +63,7 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
           className={`
             gap-x-3
             items-center
-            hidden
-            md:flex
+            ${isCollapse ? "flex" : "hidden md:flex"}
           `}
         >
           {/* RxArrowLeft Button */}
@@ -167,7 +166,8 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
               <div>
                 <Button
                   onClick={() => {
-                    authModal.SignUp();
+                    authModal.signUp();
+                    authModal.signUpDescription();
                     authModal.onOpen();
                   }}
                   className="
@@ -181,7 +181,8 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
               <div>
                 <Button
                   onClick={() => {
-                    authModal.LogIn();
+                    authModal.logIn();
+                    authModal.logInDescription();
                     authModal.onOpen();
                   }}
                   className="bg-white px-4 py-1.5"

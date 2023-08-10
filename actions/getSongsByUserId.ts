@@ -27,12 +27,14 @@ const getSongsByUserId = async (): Promise<Song[]> => {
   }
 
   return (
-    (data as any) || [
-      {
-        id: 0,
-        title: "The playlist is empty before logging into your account",
-      },
-    ]
+    // (data as any) || [
+    //   {
+    //     id: 0,
+    //     title: "The playlist is empty before logging into your account",
+    //   },
+    // ]
+
+    (data as any) || []
   );
 };
 

@@ -1,8 +1,7 @@
 import getSongs from "@/actions/getSongs";
 import Header from "@/components/Header";
 import ListItem from "@/components/ListItem";
-import PageContent from "../components/PageContent";
-import { useRef } from "react";
+import PageContent from "./components/PageContent";
 
 export default async function Home() {
   const revalidate = 0;

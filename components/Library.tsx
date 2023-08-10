@@ -14,6 +14,8 @@ import { useUser } from "@/hooks/useUser";
 import useCollapse from "@/hooks/useCollapse";
 import useAuthModal from "@/hooks/useAuthModal";
 import useUploadModal from "@/hooks/useUploadModal";
+import { useRouter } from "next/navigation";
+import useDebounce from "@/hooks/useDebounce";
 
 interface LibraryProps {
   songsByUserId: Song[];
@@ -21,13 +23,30 @@ interface LibraryProps {
 
 const Library: React.FC<LibraryProps> = ({ songsByUserId }) => {
   const { user } = useUser();
+  const router = useRouter();
   const authModal = useAuthModal();
   const uploadModal = useUploadModal();
   const { isCollapse, setIsCollapse } = useCollapse();
-  const [activeSearchBar, setActiveSearchBar] = useState(false);
+  const [activeSearchBar, setActiveSearchBar] = useState<boolean>(false);
   const searchIconRef = useRef<HTMLDivElement>(null);
   const searchBarRef = useRef<HTMLDivElement>(null);
+  const [value, setValue] = useState<string>("");
+  const [songsByUserIdAndTitle, setSongsByUserIdAndTitle] = useState<Song[]>(
+    []
+  );
 
+  // Upload Song OnClick Function
+  const onClick = () => {
+    if (!user) {
+      authModal.logIn();
+      authModal.logInDescription();
+      authModal.onOpen();
+    } else {
+      uploadModal.onOpen();
+    }
+  };
+
+  // Library SearchBar FadeIn Animation
   const fadeInAnimation = useSpring({
     from: {
       opacity: 0,
@@ -38,14 +57,7 @@ const Library: React.FC<LibraryProps> = ({ songsByUserId }) => {
     config: { duration: 300 },
   });
 
-  const onClick = () => {
-    if (!user) {
-      authModal.onOpen();
-    } else {
-      uploadModal.onOpen();
-    }
-  };
-
+  // Close SearchBar
   useEffect(() => {
     const handleClick = (event: any) => {
       if (
@@ -55,6 +67,7 @@ const Library: React.FC<LibraryProps> = ({ songsByUserId }) => {
         !searchBarRef.current.contains(event.target)
       ) {
         setActiveSearchBar(false);
+        setValue("");
       }
     };
     document.addEventListener("click", handleClick);
@@ -64,12 +77,24 @@ const Library: React.FC<LibraryProps> = ({ songsByUserId }) => {
     };
   }, []);
 
+  // Get Library Search Result(setTimeout)
+  useEffect(() => {
+    const filterSongs = songsByUserId.filter((song) =>
+      song.title.toLowerCase().includes(value.toLowerCase())
+    );
+    const timer = setTimeout(() => setSongsByUserIdAndTitle(filterSongs), 300);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [value]);
+
   return (
     <div
       className={`
         flex
         flex-col
         ${isCollapse ? "gap-y-3" : ""}
+        h-full
       `}
     >
       {/* Library */}
@@ -127,27 +152,27 @@ const Library: React.FC<LibraryProps> = ({ songsByUserId }) => {
       </div>
 
       {/* Search & Sort*/}
-      {!isCollapse && (
+      {!isCollapse && user && songsByUserId.length > 0 && (
         <div
-          className="
-          p-3
-          flex
-          flex-row
-          w-full
-          h-fit
-          gap-x-3
-          items-center
-          justify-between
-        "
+          className={`
+            p-3
+            flex
+            flex-row
+            w-full
+            h-fit
+            gap-x-3
+            items-center
+            justify-between
+          `}
         >
           {/* Search */}
           <div
             className="
-            flex
-            w-full
-            h-[45px]
-            relative
-            items-center
+              flex
+              w-full
+              h-[45px]
+              relative
+              items-center
           "
           >
             {/* Search Icon */}
@@ -157,64 +182,59 @@ const Library: React.FC<LibraryProps> = ({ songsByUserId }) => {
                 setActiveSearchBar(!activeSearchBar);
               }}
               className={`
-              p-2
-              z-10
-              group
-              rounded-full
-              transition
-              cursor-pointer
-              ${activeSearchBar ? "absolute" : "hover:bg-neutral-700/50"}
+                p-2
+                z-10
+                group
+                rounded-full
+                transition
+                cursor-pointer
+                ${activeSearchBar ? "absolute" : "hover:bg-neutral-700/50"}
               
             `}
             >
               <FiSearch
                 size={20}
                 className="
-                text-neutral-400 
-                group-hover:text-white
+                  text-neutral-400 
+                  group-hover:text-white
               "
               />
             </div>
             {/* SearchBar */}
-            <animated.div ref={searchBarRef} style={fadeInAnimation}>
+            <animated.div
+              ref={searchBarRef}
+              style={fadeInAnimation}
+              className="w-full"
+            >
               <Input
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
                 autoFocus
                 className={`
-                py-1.5
-                pl-10
-                rounded-d=md
-                bg-neutral-700/50
-                placeholder:text-[15px]
-                placeholder:text-neutral-500
-                ${activeSearchBar ? "flex" : "hidden"}
-              `}
+                  py-1.5
+                  pl-10
+                  rounded-md
+                  bg-neutral-700/50
+                  placeholder:text-[15px]
+                  placeholder:text-neutral-500
+                  ${activeSearchBar ? "flex" : "hidden"}
+                `}
                 placeholder="Search in your library"
               />
             </animated.div>
           </div>
           {/* Sort */}
-          <div
-            className={`
-              flex
-              ${activeSearchBar ? "w-5" : "w-fit"}
-            `}
-          >
-            <div
+          <div className="flex">
+            <p
               className="
                 w-full
-                "
-            >
-              <p
-                className="
-                  w-full
-                  font-semibold
-                  text-neutral-400
-                  truncate
+                font-semibold
+                text-neutral-400
+                truncate
               "
-              >
-                Recents
-              </p>
-            </div>
+            >
+              Recents
+            </p>
           </div>
         </div>
       )}
@@ -226,11 +246,71 @@ const Library: React.FC<LibraryProps> = ({ songsByUserId }) => {
             flex-col
             gap-y-2
             px-2
+            h-full
         "
       >
-        {songsByUserId.map((song, index) => (
-          <MediaItem key={index} song={song} />
-        ))}
+        {!user ? (
+          <>
+            {!isCollapse && (
+              <div className="p-3 pt-10">
+                <p className="text-neutral-500 font-semibold">
+                  The playlist is empty before logging into your account
+                </p>
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            {!isCollapse && songsByUserId.length === 0 ? (
+              <div className="p-3 pt-10 text-neutral-500 font-semibold">
+                <p className="mb-2">There are no songs in playlist.</p>
+                <p>
+                  please click the "+" icon in the upper right corner and upload
+                  your own favourite songs.
+                </p>
+              </div>
+            ) : (
+              <>
+                {!activeSearchBar ? (
+                  songsByUserId.map((song, index) => (
+                    <MediaItem key={index} song={song} collapseRounded={true} />
+                  ))
+                ) : (
+                  <>
+                    {songsByUserIdAndTitle.length > 0 ? (
+                      songsByUserIdAndTitle.map((song, index) => (
+                        <MediaItem
+                          key={index}
+                          song={song}
+                          collapseRounded={true}
+                        />
+                      ))
+                    ) : (
+                      <>
+                        {!isCollapse && (
+                          <div
+                            className="
+                              p-3
+                              pt-10
+                              text-neutral-500
+                              font-semibold
+                            "
+                          >
+                            <p className="mb-2">Could not find '{value}'.</p>
+                            <p>
+                              Please try searching again with different
+                              spellings or keywords
+                            </p>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </>
+                )}
+              </>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

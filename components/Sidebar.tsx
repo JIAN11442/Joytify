@@ -10,7 +10,6 @@ import { Song } from "@/types";
 import Library from "./Library";
 import SidebarItem from "./SidebarItem";
 import useCollapse from "@/hooks/useCollapse";
-import { document } from "postcss";
 
 interface SidebarProps {
   children: React.ReactNode;
@@ -46,7 +45,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songsByUserId }) => {
         className={`
           bg-black
           h-full
-          ${isCollapse ? "w-[100px]" : "w-[300px]"}
+          ${isCollapse ? "w-[100px]" : "w-[350px] lg:w-[400px]"}
           ${isCollapse ? "flex" : "hidden md:flex"}
           transition
           flex-col
