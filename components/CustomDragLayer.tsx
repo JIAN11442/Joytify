@@ -1,4 +1,3 @@
-import { Song } from "@/types";
 import { useEffect, useState } from "react";
 import { XYCoord, useDragLayer } from "react-dnd";
 

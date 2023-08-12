@@ -2,6 +2,7 @@
 
 import { IoMdClose } from "react-icons/io";
 import * as Dialog from "@radix-ui/react-dialog";
+
 import useAuthModal from "@/hooks/useAuthModal";
 
 interface ModalProps {

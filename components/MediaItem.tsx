@@ -1,10 +1,9 @@
 import Image from "next/image";
+import { twMerge } from "tailwind-merge";
 
 import { Song } from "@/types";
 import useCollapse from "@/hooks/useCollapse";
 import useUploadImage from "@/hooks/useLoadImage";
-import { twMerge } from "tailwind-merge";
-import { useEffect } from "react";
 
 interface MediaItemProps {
   song: Song;
