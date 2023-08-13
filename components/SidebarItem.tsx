@@ -1,23 +1,22 @@
+import useCollapse from "@/hooks/useCollapse";
 import Link from "next/link";
 import { IconType } from "react-icons";
 import { twMerge } from "tailwind-merge";
 
-import useCollapse from "@/hooks/useCollapse";
-
-interface SidebarItemProps {
+interface SidebarProps {
   icon: IconType;
   label: string;
-  active?: boolean;
+  active: boolean;
   href: string;
 }
 
-const SidebarItem: React.FC<SidebarItemProps> = ({
+const SidebarItem: React.FC<SidebarProps> = ({
   icon: Icon,
   label,
   active,
   href,
 }) => {
-  const { isCollapse, setIsCollapse } = useCollapse();
+  const { isCollapse } = useCollapse();
 
   return (
     <Link
@@ -26,24 +25,24 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
         `
         flex
         flex-row
+        items-center
+        gap-x-4
         text-neutral-400
         hover:text-white
         transition
-        w-full
-        h-auto
-        text-md
-        font-medium
         cursor-pointer
-        gap-x-4
-        items-center
       `,
         active ? "text-white" : ""
       )}
     >
+      {/* Icon */}
       <div>
-        <Icon size={30} />
+        <Icon size={28} />
       </div>
-      {!isCollapse && <p className="truncate font-bold text-lg">{label}</p>}
+      {/* Label */}
+      <div className={`${isCollapse ? "hidden" : "flex"}`}>
+        <p className="text-lg font-bold truncate">{label}</p>
+      </div>
     </Link>
   );
 };

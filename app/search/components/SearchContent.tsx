@@ -1,72 +1,111 @@
-"use client";
+import { FaPlay } from "react-icons/fa";
 
 import { Song } from "@/types";
-import LikeButton from "@/components/LikeButton";
 import MediaItem from "@/components/MediaItem";
+import LikeButton from "@/components/LikeButton";
 
 interface SearchContentProps {
-  songsByTitle: Song[];
+  songs: Song[];
 }
 
-const SearchContent: React.FC<SearchContentProps> = ({ songsByTitle }) => {
+const SearchContent: React.FC<SearchContentProps> = ({ songs }) => {
   return (
-    <>
-      {songsByTitle.length === 0 ? (
-        <div
-          className="
-            p-6
-            pt-10
-            text-lg
-            text-center
-            font-semibold
-            text-neutral-500
-          "
-        >
-          <p className="mb-2">No songs found.</p>
-        </div>
-      ) : (
-        <div
-          className="
-            flex
-            p-6
-            pt-0
-            w-full
-          "
-        >
+    <div>
+      {/* Songs List */}
+      <div>
+        {songs.length === 0 ? (
+          // No songs found
           <div
-            className="
-              flex
-              flex-col
-              w-full
-              gap-y-2
-            "
+            className={`
+                flex
+                py-10
+                items-center
+                justify-center
+                ${songs.length === 0 ? "flex" : "hidden"}
+            `}
           >
-            {songsByTitle.map((song) => (
+            <p
+              className="
+                text-lg
+                font-semibold
+                text-neutral-500
+            "
+            >
+              No songs found.
+            </p>
+          </div>
+        ) : (
+          // Songs found
+          <div>
+            {songs.map((song, index) => (
               <div
-                className="
-                  flex
-                  flex-row
-                  items-center
-                  justify-center
-                  gap-x-3
-                "
+                key={song.id}
+                className={`
+                    group
+                    flex
+                    flex-row
+                    w-full
+                    px-4
+                    gap-x-4
+                    items-center
+                    rounded-lg
+                    hover:bg-neutral-500/5
+                    cursor-pointer
+                `}
               >
+                {/* Index || PlayButton */}
+                <div
+                  className={`
+                    flex
+                    w-[25px]
+                    h-full
+                    items-center
+                    justify-center
+                    overflow-hidden
+                    transition
+                `}
+                >
+                  {/* Index */}
+                  <div
+                    className={`
+                        text-neutral-400
+                        group-hover:hidden
+                    `}
+                  >
+                    {index + 1}
+                  </div>
+
+                  {/* Play Button */}
+                  <div
+                    className={`
+                        hidden
+                        group-hover:flex
+                        hover:scale-110
+                    `}
+                  >
+                    <FaPlay />
+                  </div>
+                </div>
+
+                {/* Song Template */}
                 <div className="flex-1">
                   <MediaItem
-                    key={song.id}
                     song={song}
                     collapseRounded={false}
+                    hoverAnimated={false}
                   />
                 </div>
-                <div className="flex">
+
+                {/* Liked Button */}
+                <div>
                   <LikeButton song={song} />
                 </div>
               </div>
             ))}
           </div>
-        </div>
-      )}
-    </>
+        )}
+      </div>
+    </div>
   );
 };
 

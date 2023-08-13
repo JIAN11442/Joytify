@@ -1,9 +1,15 @@
 import { FaPlay } from "react-icons/fa";
+import { twMerge } from "tailwind-merge";
 
-const PlayButton = () => {
+interface PlayButtonProps {
+  className?: string;
+}
+
+const PlayButton: React.FC<PlayButtonProps> = ({ className }) => {
   return (
     <button
-      className="
+      className={twMerge(
+        `
         p-4
         bg-green-500
         rounded-full
@@ -14,7 +20,9 @@ const PlayButton = () => {
         group-hover:translate-y-0
         group-hover:opacity-100
         opacity-0
-    "
+      `,
+        className
+      )}
     >
       <FaPlay color="black" />
     </button>

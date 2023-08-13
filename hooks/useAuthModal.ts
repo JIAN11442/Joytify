@@ -1,28 +1,26 @@
-import { ViewType } from "@/types";
 import { create } from "zustand";
+import { ViewType } from "@/types";
 
 interface useAuthModalProps {
   isOpen: boolean;
   viewType: ViewType;
   description: string;
-  onOpen: () => void;
-  onClose: () => void;
+  open: () => void;
+  close: () => void;
+  signIn: () => void;
   signUp: () => void;
-  logIn: () => void;
-  signUpDescription: () => void;
-  logInDescription: () => void;
 }
 
 const useAuthModal = create<useAuthModalProps>((set) => ({
   isOpen: false,
   viewType: "sign_in",
-  description: "Login to your account",
-  onOpen: () => set({ isOpen: true }),
-  onClose: () => set({ isOpen: false }),
-  signUp: () => set({ viewType: "sign_up" }),
-  logIn: () => set({ viewType: "sign_in" }),
-  signUpDescription: () => set({ description: "sign up a new account" }),
-  logInDescription: () => set({ description: "login to your account" }),
+  description: "login to your account",
+  open: () => set({ isOpen: true }),
+  close: () => set({ isOpen: false }),
+  signIn: () =>
+    set({ viewType: "sign_in", description: "login to your account" }),
+  signUp: () =>
+    set({ viewType: "sign_up", description: "create a new account" }),
 }));
 
 export default useAuthModal;

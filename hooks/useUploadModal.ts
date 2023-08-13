@@ -2,14 +2,14 @@ import { create } from "zustand";
 
 interface useUploadModalProps {
   isOpen: boolean;
-  onOpen: () => void;
-  onClose: () => void;
+  open: () => void;
+  close: () => void;
 }
 
 const useUploadModal = create<useUploadModalProps>((set) => ({
   isOpen: false,
-  onOpen: () => set({ isOpen: true }),
-  onClose: () => set({ isOpen: false }),
+  open: () => set({ isOpen: true }),
+  close: () => set({ isOpen: false }),
 }));
 
 export default useUploadModal;

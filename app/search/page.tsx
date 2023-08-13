@@ -8,8 +8,10 @@ interface SearchProps {
     title: string;
   };
 }
+
 const Search = async ({ searchParams }: SearchProps) => {
-  const songsByTitle = await getSongsByTitle(searchParams.title, "search");
+  const songsByTitle = await getSongsByTitle(searchParams.title);
+
   return (
     <div
       className="
@@ -21,28 +23,38 @@ const Search = async ({ searchParams }: SearchProps) => {
         overflow-y-auto
     "
     >
-      <Header className="from-blue-900">
+      <Header
+        className="
+        from-blue-900
+        "
+      >
         <div
           className="
             flex
             flex-col
-            mb-2
-            gap-y-6
-          "
+            gap-y-4        
+        "
         >
-          <h1
-            className="
-              text-3xl
-              text-white
-              font-semibold
-            "
-          >
-            Search
-          </h1>
-          <SearchInput />
+          {/* Search Title */}
+          <div className="mt-4">
+            <p className="text-3xl font-semibold">Search</p>
+          </div>
+          {/* Search Bar */}
+          <SearchInput searchParams={searchParams} />
         </div>
       </Header>
-      <SearchContent songsByTitle={songsByTitle} />
+
+      <div
+        className="
+          flex
+          flex-col
+          w-full
+          h-full
+          px-6
+        "
+      >
+        <SearchContent songs={songsByTitle} />
+      </div>
     </div>
   );
 };

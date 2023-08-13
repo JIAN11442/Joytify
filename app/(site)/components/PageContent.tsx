@@ -46,7 +46,7 @@ const PageContent: React.FC<PageContentProps> = ({ songs }) => {
         `}
       >
         {songs.map((item, index) => (
-          <SongItem key={index} data={item} />
+          <SongItem key={index} song={item} />
         ))}
       </div>
     </DndProvider>

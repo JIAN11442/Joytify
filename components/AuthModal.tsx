@@ -1,50 +1,47 @@
 "use client";
 
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Auth } from "@supabase/auth-ui-react";
-import { ThemeSupa } from "@supabase/auth-ui-shared";
 import {
   useSupabaseClient,
   useSessionContext,
 } from "@supabase/auth-helpers-react";
+import { ThemeSupa } from "@supabase/auth-ui-shared";
 
 import Modal from "./Modal";
 import useAuthModal from "@/hooks/useAuthModal";
+import { useEffect } from "react";
 
 const AuthModal = () => {
   const router = useRouter();
   const authModal = useAuthModal();
-  const session = useSessionContext();
   const supabaseClient = useSupabaseClient();
-  const onChange = (open: boolean) => {
-    if (!open) {
-      authModal.onClose();
-      authModal.logIn();
-      router.refresh();
-    }
+  const onChange = () => {
+    router.refresh();
+    authModal.close();
   };
+
+  const session = useSessionContext().session;
 
   useEffect(() => {
     if (session) {
       router.refresh();
-      authModal.onClose();
-      authModal.logIn();
+      authModal.close();
     }
   }, [session]);
 
   return (
     <Modal
-      title="Welcome Back"
-      description={authModal.description}
       isOpen={authModal.isOpen}
       onChange={onChange}
+      title="Welcome Back"
+      description={authModal.description}
     >
       <Auth
         view={authModal.viewType}
-        theme="dark"
         magicLink
-        providers={["github", "google"]}
+        theme="dark"
+        providers={["google", "github"]}
         supabaseClient={supabaseClient}
         appearance={{
           theme: ThemeSupa,

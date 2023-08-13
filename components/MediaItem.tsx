@@ -1,163 +1,116 @@
+"use client";
+
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
 
 import { Song } from "@/types";
 import useCollapse from "@/hooks/useCollapse";
-import useUploadImage from "@/hooks/useLoadImage";
+import useLoadImage from "@/hooks/useLoadImage";
 
 interface MediaItemProps {
   song: Song;
+  collapseRounded?: boolean;
+  hoverAnimated?: boolean;
   className?: string;
-  collapseRounded: boolean;
 }
 
 const MediaItem: React.FC<MediaItemProps> = ({
   song,
-  className,
   collapseRounded,
+  hoverAnimated,
+  className,
 }) => {
-  const imagePath = useUploadImage(song);
-  const { isCollapse, setIsCollapse } = useCollapse();
+  const imagePath = useLoadImage(song);
+  const { isCollapse } = useCollapse();
 
   return (
-    <div>
-      {parseInt(song.id) !== 0 && (
-        <>
-          {collapseRounded ? (
-            <div
-              className={twMerge(
-                `
-                p-1
-                flex
-                flex-row
-                hover:bg-neutral-800/50
-                rounded-md
-                transition
-                gap-x-3
-                items-center
-                cursor-pointer
-                ${isCollapse ? "justify-center" : ""}
-              `,
-                className
-              )}
-            >
-              {/* IMAGE */}
-              <div
-                className={`
-                  relative
-                  min-w-[50px]
-                  min-h-[50px]
-                  overflow-hidden
-                  ${isCollapse ? "rounded-full" : "rounded-md"}
-                `}
-              >
-                <Image
-                  src={imagePath}
-                  alt={song.title}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              {/* LABEL */}
-              <div
-                className={`
-                ${isCollapse ? "hidden" : "flex flex-col"}
-                  w-full
-                  overflow-hidden
-                  gap-y-1
-                `}
-              >
-                <p
-                  className="
-                    text-sm
-                    font-semibold
-                    text-neutral-300
-                    truncate
-              "
-                >
-                  {song.title}
-                </p>
-                <p
-                  className="
-                    text-[13px]
-                    font-semibold
-                    text-neutral-500
-                    truncate
-                "
-                >
-                  {song.author}
-                </p>
-              </div>
-            </div>
-          ) : (
-            <div
-              className={twMerge(
-                `
-                p-1
-                flex
-                flex-row
-                hover:bg-neutral-800/50
-                rounded-md
-                transition
-                gap-x-3
-                items-center
-                cursor-pointer
-              `,
-                className
-              )}
-            >
-              {/* IMAGE */}
-              <div
-                className="
-                  relative
-                  min-w-[50px]
-                  min-h-[50px]
-                  overflow-hidden
-                  rounded-md
-            "
-              >
-                <Image
-                  src={imagePath}
-                  alt={song.title}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              {/* LABEL */}
-              <div
-                className="
-                  flex
-                  flex-col
-                  w-full
-                  overflow-hidden
-                  gap-y-1
-                "
-              >
-                <p
-                  className="
-                    text-sm
-                    font-semibold
-                    text-neutral-300
-                    truncate
-                  "
-                >
-                  {song.title}
-                </p>
-                <p
-                  className="
-                    text-[13px]
-                    font-semibold
-                    text-neutral-500
-                    truncate
-                  "
-                >
-                  {song.author}
-                </p>
-              </div>
-            </div>
-          )}
-        </>
+    <div
+      className={twMerge(
+        `
+        flex
+        flex-row
+        gap-x-3
+        items-center
+        p-1
+        border-b
+        border-transparent
+        bg-transparent
+        cursor-pointer
+        transition
+        ${
+          isCollapse
+            ? `
+                rounded-full
+                ${
+                  hoverAnimated
+                    ? `hover:shadow-green-500
+                        shadow-[1px_1px_10px_2px_rgba(0,0,0,0)]
+                        hover:scale-[1.02]`
+                    : ``
+                }
+              `
+            : `
+                ${
+                  hoverAnimated
+                    ? `hover:bg-neutral-800/60
+                      hover:border-[rgba(34,197,94,0.8)]
+                        hover:scale-[1.02]`
+                    : ``
+                }
+                rounded-lg
+              `
+        }
+      `,
+        className
       )}
+    >
+      {/* Image */}
+      <div
+        className={`
+            relative
+            min-w-[50px]
+            min-h-[50px]
+            overflow-hidden
+            ${isCollapse && collapseRounded ? "rounded-full" : "rounded-lg"}
+        `}
+      >
+        <Image src={imagePath} alt={song.title} fill className="object-cover" />
+      </div>
+
+      {/* Song Title && Song Author */}
+      <div
+        className={`
+            flex
+            flex-col
+            gap-y-1
+            ${isCollapse && collapseRounded ? "hidden" : ""}
+        `}
+      >
+        {/* song title */}
+        <div>
+          <p
+            className="
+            text-[14px]
+            text-neutral-300
+            font-semibold
+          "
+          >
+            {song.title}
+          </p>
+        </div>
+        {/* song author */}
+        <div>
+          <p
+            className="
+                text-[13px]
+                font-semibold
+                text-neutral-500
+            "
+          >
+            {song.author}
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

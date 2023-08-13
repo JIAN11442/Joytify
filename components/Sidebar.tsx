@@ -6,96 +6,87 @@ import { BiSearch } from "react-icons/bi";
 import { usePathname } from "next/navigation";
 
 import Box from "./Box";
-import { Song } from "@/types";
-import Library from "./Library";
 import SidebarItem from "./SidebarItem";
+import Library from "./Library";
 import useCollapse from "@/hooks/useCollapse";
+import { Song } from "@/types";
 
 interface SidebarProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   songsByUserId: Song[];
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ children, songsByUserId }) => {
-  const pathname = usePathname();
-  const { isCollapse, setIsCollapse } = useCollapse();
-
+  const pathName = usePathname();
   const routes = useMemo(
     () => [
       {
         icon: HiHome,
         label: "Home",
-        active: pathname !== "/search",
+        active: pathName !== "/search",
         href: "/",
       },
       {
         icon: BiSearch,
         label: "Search",
-        active: pathname === "/search",
+        active: pathName === "/search",
         href: "/search",
       },
     ],
-    [pathname]
+    [pathName]
   );
+  const { isCollapse } = useCollapse();
 
   return (
-    <div className="flex h-full">
+    <div className="flex h-full p-2 pr-0 gap-x-2">
       {/* Sidebar */}
       <div
         className={`
-          bg-black
-          h-full
-          ${isCollapse ? "w-[100px]" : "w-[350px] lg:w-[400px]"}
-          ${isCollapse ? "flex" : "hidden md:flex"}
-          transition
+          flex
           flex-col
-          p-2
+          ${isCollapse ? "w-[77px]" : "w-[300px] lg:w-[350px] hidden md:flex"}
+          h-full
           gap-y-2
         `}
       >
+        {/* Main Navigate */}
         <Box className="h-auto p-2">
+          <div
+            className={`
+              flex
+              flex-col
+              py-5
+              px-4
+              gap-y-4
+            `}
+          >
+            {routes.map((item, index) => (
+              <SidebarItem key={index} {...item} />
+            ))}
+          </div>
+        </Box>
+
+        {/* Library */}
+        <Box className="h-full p-2">
           <div
             className="
               flex
               flex-col
-              py-4
-              px-5
               gap-y-4
-          "
-          >
-            {routes.map((item) => (
-              <SidebarItem key={item.label} {...item} />
-            ))}
-          </div>
-        </Box>
-        <Box
-          className="
-            overflow-y-auto
-            h-full
-            p-2
-        "
-        >
-          <div
-            className="
-              flex
-              flex-col 
-              py-4
-              gap-y-4
-          "
+            "
           >
             <Library songsByUserId={songsByUserId} />
           </div>
         </Box>
       </div>
-      {/* Main Content */}
+
+      {/* Main Page */}
       <main
-        className={`
-          h-full
-          flex-1
-          overflow-y-auto
-          py-2
-          ${!isCollapse ? "pl-2 md:pl-0" : ""}
-        `}
+        className="
+            flex-1
+            overflow-hidden
+            overflow-y-auto
+        "
       >
         {children}
       </main>

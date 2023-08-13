@@ -10,15 +10,15 @@ import { ItemTypes, Song } from "@/types";
 import useUploadImage from "@/hooks/useLoadImage";
 
 interface SongItemProps {
-  data: Song;
+  song: Song;
 }
 
-const SongItem: React.FC<SongItemProps> = ({ data }) => {
-  const imagePath = useUploadImage(data);
+const SongItem: React.FC<SongItemProps> = ({ song }) => {
+  const imagePath = useUploadImage(song);
 
   const [, dragRef, dragPreview] = useDrag(() => ({
     type: ItemTypes.SONG,
-    item: { data: data },
+    item: { data: song },
   }));
 
   useEffect(() => {
@@ -29,74 +29,85 @@ const SongItem: React.FC<SongItemProps> = ({ data }) => {
     <div
       ref={dragRef}
       className="
-        relative
         group
-        p-3
-        pb-0
         flex
         flex-col
-        bg-neutral-400/5
-        hover:bg-neutral-400/10
-        rounded-md
-        items-center
-        justify-center
-        overflow-hidden
+        p-3
+        gap-y-2
+        bg-neutral-800/80
+        hover:bg-neutral-700/50
+        rounded-lg
         cursor-pointer
-    "
+        shadow-[1px_1px_8px_1px_rgba(0,0,0,0)]
+        hover:shadow-green-500/80
+        hover:scale-[1.03]
+        transition
+      "
     >
-      {/* Image */}
+      {/* Image && PlayButton */}
       <div
         className="
-            relative
-            aspect-square
-            w-full
-            h-full
-            overflow-hidden
+          relative
         "
       >
-        <Image src={imagePath} alt={data.title} fill className="object-cover" />
+        {/* Image */}
+        <div
+          className="
+          relative
+          aspect-square
+          w-full
+          h-full
+          overflow-hidden
+        "
+        >
+          <Image
+            src={imagePath}
+            alt={song.title}
+            fill
+            className="object-cover"
+          />
+        </div>
+
+        {/* Play Button */}
+        <div
+          className="
+            absolute
+            bottom-2
+            right-2
+          "
+        >
+          <PlayButton />
+        </div>
       </div>
-      {/* title && author */}
+
+      {/* Song Title */}
       <div
         className="
-            flex
-            flex-col
-            items-start
-            w-full
-            pt-4
-            gap-y-1
-            "
+          pt-2
+        "
       >
         <p
           className="
-          w-full
-          truncate
-          text-[15px]
-          font-semibold
-        "
+            text-[14px]
+            font-bold
+            truncate
+          "
         >
-          {data.title}
+          {song.title}
         </p>
+      </div>
+
+      {/* Song Author */}
+      <div>
         <p
           className="
             text-[13px]
             text-neutral-400
-            pb-4
-            w-full
             truncate
-        "
+          "
         >
-          {data.author}
+          {song.author}
         </p>
-      </div>
-      <div
-        className="
-            absolute
-            right-5
-            bottom-24
-        "
-      >
-        <PlayButton />
       </div>
     </div>
   );
