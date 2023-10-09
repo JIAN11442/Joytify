@@ -17,8 +17,9 @@ const LikedSongs = async () => {
         rounded-lg
         overflow-hidden
         overflow-y-auto
-    "
+      "
     >
+      {/* Header Section */}
       <Header
         className="
         from-indigo-600/50
@@ -103,15 +104,38 @@ const LikedSongs = async () => {
           </div>
         </div>
       </Header>
+
+      {/* Main Section */}
       <div
         className="
-            bg-gradient-to-b
-            from-indigo-800/20
-      "
+          bg-gradient-to-b
+          from-indigo-800/20
+        "
       >
-        <div className="py-3 px-6">
-          <PlayButton className="opacity-100 p-5" />
-        </div>
+        {likedSongs.length > 0 ? (
+          <div className="py-3 px-6">
+            <PlayButton className="opacity-100 p-5" />
+          </div>
+        ) : (
+          <div
+            className="
+              flex
+              py-10
+              items-center
+              justify-center
+            "
+          >
+            <p
+              className="
+                text-lg
+                font-semibold
+                text-neutral-500
+              "
+            >
+              No liked Songs.
+            </p>
+          </div>
+        )}
         <div>
           <LikedContent likedSongs={likedSongs} />
         </div>

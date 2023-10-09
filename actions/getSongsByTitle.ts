@@ -9,10 +9,13 @@ const getSongsByTitle = async (title?: string | null): Promise<Song[]> => {
     cookies: cookies,
   });
 
-  //   if (!title) {
-  //     const allSongs = getSongs();
-  //     return allSongs;
-  //   }
+  // 當目前處在 Search page,然後又點擊SearchIcon，這時候Sidebar的SearchIcon會push一個『/search』
+  // 而並不是『/search?title=』,所以 Search page 中的 SearchParams?.title 為 undefined,即為 false
+  // 為 false 時，想返回全部Songs
+  if (!title) {
+    const allSongs = getSongs();
+    return allSongs;
+  }
 
   const { data: songsData, error: songsError } = await supabase
     .from("songs")
@@ -24,7 +27,7 @@ const getSongsByTitle = async (title?: string | null): Promise<Song[]> => {
     console.log(songsError.message);
   }
 
-  return (songsData as any) || [];
+  return (songsData as Song[]) || [];
 };
 
 export default getSongsByTitle;
