@@ -9,7 +9,6 @@ interface LikedContentProps {
 }
 
 const LikedContent: React.FC<LikedContentProps> = ({ likedSongs }) => {
-  console.log(likedSongs);
   return (
     <div
       className="

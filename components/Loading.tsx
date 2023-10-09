@@ -1,45 +1,28 @@
-"use client";
-
-import { twMerge } from "tailwind-merge";
-import ClipLoader from "react-spinners/ClipLoader";
+import { ClipLoader } from "react-spinners";
 
 interface LoadingProps {
-  className?: string | undefined;
-  title?: string | undefined;
-  description?: string | undefined;
+  title: string;
+  description: string;
 }
 
-const Loading: React.FC<LoadingProps> = ({ className, title, description }) => {
+const Loading: React.FC<LoadingProps> = ({ title, description }) => {
   return (
     <div
-      className={twMerge(
-        `
+      className="
         fixed
-        bg-neutral-800/90
         inset-0
-    `,
-        className
-      )}
+        bg-neutral-800/80
+        flex
+        flex-col
+        gap-y-2
+        items-center
+        justify-center
+    "
     >
-      <div
-        className="
-          fixed
-          top-[50%]
-          left-[50%]
-          translate-x-[-50%]
-          translate-y-[-50%]
-          flex
-          flex-col
-          gap-y-4
-          items-center
-          jusitfy-center
-      "
-      >
-        <ClipLoader size={50} color="#22c55e" />
-        <div className={`text-center text-[#22c55e] text-opacity-80`}>
-          <div>{title}</div>
-          <div>{description}</div>
-        </div>
+      <ClipLoader size={50} color="green" />
+      <div className={`text-center text-[#22c55e] text-opacity-80`}>
+        <div>{title}</div>
+        <div>{description}</div>
       </div>
     </div>
   );
