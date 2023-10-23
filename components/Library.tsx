@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { LuLibrary } from "react-icons/lu";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -29,8 +31,17 @@ const Library: React.FC<LibraryProps> = ({ songsByUserId }) => {
 
   // get User Search Song
   useEffect(() => {
-    const filterSongs = songsByUserId.filter((song) =>
-      song.title.toLowerCase().includes(debounceValue.toLowerCase())
+    // // 按整段title有沒有該字母來判斷(不嚴謹)
+    // const filterSongs = songsByUserId.filter((song) =>
+    //   song.title.toLowerCase().includes(debounceValue.toLowerCase())
+    // );
+
+    // 按輸入的值與可能的title比較，輸入一個字就比較第一個字母，以此類推(教嚴謹)
+    const debounceLength = debounceValue.length;
+    const filterSongs = songsByUserId.filter(
+      (song) =>
+        song.title.toLowerCase().slice(0, debounceLength) ===
+        debounceValue.toLowerCase()
     );
     setTargetSearchSongs(filterSongs);
   }, [debounceValue]);
