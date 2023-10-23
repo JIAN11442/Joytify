@@ -11,9 +11,10 @@ import useUploadImage from "@/hooks/useLoadImage";
 
 interface SongItemProps {
   song: Song;
+  onClick: (id: string) => void;
 }
 
-const SongItem: React.FC<SongItemProps> = ({ song }) => {
+const SongItem: React.FC<SongItemProps> = ({ song, onClick }) => {
   const imagePath = useUploadImage(song);
 
   const [, dragRef, dragPreview] = useDrag(() => ({
@@ -27,6 +28,7 @@ const SongItem: React.FC<SongItemProps> = ({ song }) => {
 
   return (
     <div
+      onClick={() => onClick(song.id)}
       ref={dragRef}
       className="
         group

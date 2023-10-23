@@ -4,6 +4,10 @@ export const ItemTypes = {
   SONG: "song",
 };
 
+export interface SearchParams {
+  title: string;
+}
+
 export interface Song {
   id: string;
   user_id: string;

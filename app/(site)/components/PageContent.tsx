@@ -7,6 +7,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import CustomDragLayer from "@/components/CustomDragLayer";
 import useCollapse from "@/hooks/useCollapse";
+import useOnPlay from "@/hooks/useOnPlay";
 
 interface PageContentProps {
   songs: Song[];
@@ -14,6 +15,7 @@ interface PageContentProps {
 
 const PageContent: React.FC<PageContentProps> = ({ songs }) => {
   const { isCollapse } = useCollapse();
+  const onPlay = useOnPlay(songs);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -46,7 +48,11 @@ const PageContent: React.FC<PageContentProps> = ({ songs }) => {
         `}
       >
         {songs.map((item, index) => (
-          <SongItem key={index} song={item} />
+          <SongItem
+            key={index}
+            onClick={(id: string) => onPlay(item.id)}
+            song={item}
+          />
         ))}
       </div>
     </DndProvider>
