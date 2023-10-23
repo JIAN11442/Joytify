@@ -9,6 +9,7 @@ import ToasterProvider from "@/providers/ToasterProvider";
 import getSongsByUserId from "@/actions/getSongsByUserId";
 import SupabaseProvider from "@/providers/SupabaseProvider";
 import Player from "@/components/Player";
+import usePlayer from "@/hooks/usePlayer";
 
 const font = Figtree({ subsets: ["latin"] });
 

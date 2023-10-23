@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { HiHome } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
 import { usePathname } from "next/navigation";
@@ -38,22 +38,47 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songsByUserId }) => {
   );
   const { isCollapse } = useCollapse();
   const player = usePlayer();
+  const height = `h-[calc(100%-${player.playerHeight}px)]`;
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const [sidebarHeight, setSidebarHeight] = useState(0);
 
   useEffect(() => {
-    console.log("height : ", player.playerHeight);
-  }, [player.playerHeight]);
+    if (sidebarRef.current) {
+      const sHeight = sidebarRef.current.getBoundingClientRect().height;
+      setSidebarHeight(sHeight);
+    }
+
+    console.log("string height:", ``);
+  }, [player.activeId]);
 
   return (
     <div
+      ref={sidebarRef}
       className={`
         flex
         h-full
         p-2
         pr-0
         gap-x-2
-        ${player.activeId && `h-[calc(100%-${player.playerHeight}px)]`}
+        ${player.activeId ? height : ""}
       `}
     >
+      <div
+        className="
+          fixed
+          right-10
+          top-4
+          z-10
+        "
+      >
+        {player.activeId}
+        <p>{`h-[calc(100%-${player.playerHeight}px)]`}</p>
+        <p>{`h-[calc(100%-40px)]`}</p>
+        <p>{player.playerHeight}</p>
+        <p>{sidebarHeight}</p>
+        <p>{sidebarHeight - player.playerHeight}</p>
+      </div>
+
       {/* Sidebar */}
       <div
         className={`
@@ -98,9 +123,9 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songsByUserId }) => {
       {/* Main Page */}
       <main
         className="
-            flex-1
-            overflow-hidden
-            overflow-y-auto
+          flex-1
+          overflow-hidden
+          overflow-y-auto
         "
       >
         {children}

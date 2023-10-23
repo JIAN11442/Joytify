@@ -34,12 +34,14 @@ const Player = () => {
         bottom-0
         bg-black
         w-full
+        h-fit
         py-2
         px-4
       "
     >
       <p>{player.activeId}</p>
       <p>thank</p>
+      <p>{player.ids}</p>
       <p>{player.ids}</p>
     </div>
   );
