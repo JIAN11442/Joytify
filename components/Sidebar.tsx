@@ -1,15 +1,16 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { HiHome } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
 import { usePathname } from "next/navigation";
 
 import Box from "./Box";
-import SidebarItem from "./SidebarItem";
-import Library from "./Library";
-import useCollapse from "@/hooks/useCollapse";
 import { Song } from "@/types";
+import Library from "./Library";
+import SidebarItem from "./SidebarItem";
+import useCollapse from "@/hooks/useCollapse";
+import usePlayer from "@/hooks/usePlayer";
 
 interface SidebarProps {
   children?: React.ReactNode;
@@ -36,9 +37,23 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songsByUserId }) => {
     [pathName]
   );
   const { isCollapse } = useCollapse();
+  const player = usePlayer();
+
+  useEffect(() => {
+    console.log("height : ", player.playerHeight);
+  }, [player.playerHeight]);
 
   return (
-    <div className="flex h-full p-2 pr-0 gap-x-2">
+    <div
+      className={`
+        flex
+        h-full
+        p-2
+        pr-0
+        gap-x-2
+        ${player.activeId && `h-[calc(100%-${player.playerHeight}px)]`}
+      `}
+    >
       {/* Sidebar */}
       <div
         className={`
@@ -67,7 +82,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songsByUserId }) => {
         </Box>
 
         {/* Library */}
-        <Box className="h-full p-2">
+        <Box className="h-full p-2 overflow-y-auto">
           <div
             className="
               flex
