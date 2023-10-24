@@ -1,59 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { LuLibrary } from "react-icons/lu";
 import { AiOutlinePlus } from "react-icons/ai";
 
-import { Song } from "@/types";
 import { useUser } from "@/hooks/useUser";
-import UserSongsList from "./UserSongsList";
 import LibrarySearch from "./LibrarySearch";
-import useDebounce from "@/hooks/useDebounce";
 import useCollapse from "@/hooks/useCollapse";
 import useAuthModal from "@/hooks/useAuthModal";
 import useUploadModal from "@/hooks/useUploadModal";
-import useSearchInput from "@/hooks/useSearchInputValue";
+import { Song } from "@/types";
 
-interface LibraryProps {
+interface LibraryTitleProps {
   songsByUserId: Song[];
 }
 
-const Library: React.FC<LibraryProps> = ({ songsByUserId }) => {
+const LibraryTitle: React.FC<LibraryTitleProps> = ({ songsByUserId }) => {
   const { isCollapse, setIsCollapse } = useCollapse();
   const { user } = useUser();
   const uploadModal = useUploadModal();
   const authModal = useAuthModal();
-  const { searchInputValue } = useSearchInput();
-  const debounceValue = useDebounce(searchInputValue, 300);
-  const [targetSearchSongs, setTargetSearchSongs] = useState<Song[] | null>(
-    null
-  );
-
-  // get User Search Song
-  useEffect(() => {
-    // // 按整段title有沒有該字母來判斷(不嚴謹)
-    // const filterSongs = songsByUserId.filter((song) =>
-    //   song.title.toLowerCase().includes(debounceValue.toLowerCase())
-    // );
-
-    // 按輸入的值與可能的title比較，輸入一個字就比較第一個字母，以此類推(教嚴謹)
-    const debounceLength = debounceValue.length;
-    const filterSongs = songsByUserId.filter(
-      (song) =>
-        song.title.toLowerCase().slice(0, debounceLength) ===
-        debounceValue.toLowerCase()
-    );
-    setTargetSearchSongs(filterSongs);
-  }, [debounceValue]);
 
   return (
-    <div
-      className="
-        flex
-        flex-col
-        gap-y-4
-      "
-    >
+    <div>
       {/* Library Title */}
       <div
         className="
@@ -126,20 +94,8 @@ const Library: React.FC<LibraryProps> = ({ songsByUserId }) => {
       >
         <LibrarySearch />
       </div>
-
-      {/* User Songs List */}
-      <div className="pb-5 ">
-        <UserSongsList
-          songsByUserId={
-            debounceValue
-              ? (targetSearchSongs as Song[])
-              : (songsByUserId as Song[])
-          }
-          debounceValue={debounceValue}
-        />
-      </div>
     </div>
   );
 };
 
-export default Library;
+export default LibraryTitle;

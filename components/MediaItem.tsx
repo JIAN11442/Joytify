@@ -67,11 +67,11 @@ const MediaItem: React.FC<MediaItemProps> = ({
       {/* Image */}
       <div
         className={`
-            relative
-            min-w-[50px]
-            min-h-[50px]
-            overflow-hidden
-            ${isCollapse && collapseRounded ? "rounded-full" : "rounded-lg"}
+          relative
+          min-w-[50px]
+          min-h-[50px]
+          overflow-hidden
+          ${isCollapse && collapseRounded ? "rounded-full" : "rounded-lg"}
         `}
       >
         <Image src={imagePath} alt={song.title} fill className="object-cover" />
@@ -80,31 +80,35 @@ const MediaItem: React.FC<MediaItemProps> = ({
       {/* Song Title && Song Author */}
       <div
         className={`
-            flex
-            flex-col
-            gap-y-1
-            ${isCollapse && collapseRounded ? "hidden" : ""}
+          flex
+          flex-col
+          w-full
+          gap-y-1
+          ${isCollapse && collapseRounded ? "hidden" : ""}
         `}
       >
         {/* song title */}
-        <div>
+        <div className="w-full">
           <p
             className="
             text-[14px]
             text-neutral-300
             font-semibold
+            truncate
           "
           >
             {song.title}
           </p>
         </div>
+
         {/* song author */}
-        <div>
+        <div className="w-full">
           <p
             className="
-                text-[13px]
-                font-semibold
-                text-neutral-500
+              text-[13px]
+              font-semibold
+              text-neutral-500
+              truncate
             "
           >
             {song.author}

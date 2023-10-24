@@ -2,15 +2,20 @@
 
 import { useEffect, useRef } from "react";
 
+import PlayerContent from "./PlayerContent";
 import usePlayer from "@/hooks/usePlayer";
+import useGetSongById from "@/hooks/useGetSongById";
+import useLoadSongUrl from "@/hooks/useLoadSongUrl";
 
 const Player = () => {
   const player = usePlayer();
   const playerRef = useRef<HTMLDivElement>(null);
+  const { song } = useGetSongById(player.activeId);
+  const songUrl = useLoadSongUrl(song!);
 
-  useEffect(() => {
-    player.reset();
-  }, []);
+  // useEffect(() => {
+  //   player.reset();
+  // }, []);
 
   // get player div height to sidebar
   useEffect(() => {
@@ -21,7 +26,7 @@ const Player = () => {
   }, [player.activeId, playerRef.current]);
 
   // If activeId is not defined, the component will not be displayed
-  if (!player.activeId) {
+  if (!player.activeId || !song || !songUrl) {
     return null;
   }
 
@@ -31,14 +36,13 @@ const Player = () => {
       className="
         fixed
         bottom-0
-        bg-red-100
+        bg-black
         w-full
-        h-fit
         py-2
         px-4
       "
     >
-      <p>{player.activeId}</p>
+      <PlayerContent key={songUrl} song={song} songUrl={songUrl} />
     </div>
   );
 };

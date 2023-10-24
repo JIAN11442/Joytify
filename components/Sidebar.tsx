@@ -78,6 +78,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songsByUserId }) => {
         </Box>
 
         {/* Library */}
+
         <Box className="h-full p-2 overflow-y-auto">
           <div
             className="

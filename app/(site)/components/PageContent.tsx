@@ -48,11 +48,7 @@ const PageContent: React.FC<PageContentProps> = ({ songs }) => {
         `}
       >
         {songs.map((item, index) => (
-          <SongItem
-            key={index}
-            onClick={(id: string) => onPlay(item.id)}
-            song={item}
-          />
+          <SongItem key={index} onClick={() => onPlay(item.id)} song={item} />
         ))}
       </div>
     </DndProvider>
