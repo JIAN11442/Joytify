@@ -1,5 +1,5 @@
 import { FiSearch } from "react-icons/fi";
-import { useRef } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { animated, useSpring } from "react-spring";
 
 import Input from "./Input";
@@ -10,7 +10,9 @@ const LibrarySearch = () => {
   const { searchInputValue, setSearchInputValue } = useSearchInputValue();
   const searchIconRef = useRef<HTMLDivElement>(null);
   const searchBarRef = useRef<HTMLDivElement>(null);
-  const inputFocus = useFocus([searchIconRef, searchBarRef]);
+  const [isFocus, isSwitch] = useFocus([searchIconRef, searchBarRef]);
+  const [inputFocus, setInputFocus] = useState(false);
+
   const fadeInAnimation = useSpring({
     from: {
       opacity: 0,
@@ -22,6 +24,18 @@ const LibrarySearch = () => {
     },
     config: { duration: 300 },
   });
+
+  useEffect(() => {
+    if (isFocus) {
+      if (isSwitch) {
+        setInputFocus(true);
+      } else {
+        setInputFocus(false);
+      }
+    } else {
+      setInputFocus(false);
+    }
+  }, [isFocus, isSwitch]);
 
   return (
     <div
@@ -43,16 +57,8 @@ const LibrarySearch = () => {
           items-center
           text-neutral-500
           hover:bg-neutral-700/60
-          ${
-            inputFocus
-              ? `hover:text-neutral-500
-                   hover:bg-transparent 
-                   cursor-not-allowed
-                `
-              : `hover:text-white
-                   rounded-full
-                `
-          }
+          hover:text-white
+          ${inputFocus ? "hover:bg-transparent " : "rounded-full"}
           transition
           cursor-pointer
         `}

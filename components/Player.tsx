@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import usePlayer from "@/hooks/usePlayer";
-import { useSpring, animated } from "react-spring";
 
 const Player = () => {
   const player = usePlayer();
@@ -32,7 +31,7 @@ const Player = () => {
       className="
         fixed
         bottom-0
-        bg-black
+        bg-red-100
         w-full
         h-fit
         py-2
@@ -40,9 +39,6 @@ const Player = () => {
       "
     >
       <p>{player.activeId}</p>
-      <p>thank</p>
-      <p>{player.ids}</p>
-      <p>{player.ids}</p>
     </div>
   );
 };

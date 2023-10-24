@@ -128,7 +128,7 @@ const Library: React.FC<LibraryProps> = ({ songsByUserId }) => {
       </div>
 
       {/* User Songs List */}
-      <div>
+      <div className="pb-5">
         <UserSongsList
           songsByUserId={
             debounceValue

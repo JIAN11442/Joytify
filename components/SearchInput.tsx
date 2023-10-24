@@ -24,7 +24,6 @@ const SearchInput: React.FC<SearchInputProps> = ({
   const pathName = usePathname();
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
-  const inputFocus = useFocus(inputRef);
 
   useEffect(() => {
     const query = {
@@ -49,7 +48,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
         `
         bg-neutral-300/5
         placeholder:text-neutral-300/50
-        ${inputFocus ? "placeholder:text-transparent" : ""}
+        focus:placeholder:text-transparent
         transition
       `,
         className
