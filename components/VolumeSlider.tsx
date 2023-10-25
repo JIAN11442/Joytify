@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+"use client";
+
 import * as Slider from "@radix-ui/react-slider";
 
 interface VolumeSliderProps {

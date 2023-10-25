@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 import {
   PiSpeakerSimpleLow,
@@ -13,6 +13,7 @@ import LikeButton from "./LikeButton";
 import VolumeSlider from "./VolumeSlider";
 import usePlayer from "@/hooks/usePlayer";
 import useSwitchSongs from "@/hooks/useSwitchSongs";
+import useSound from "use-sound";
 
 interface PlayerContentProps {
   song: Song;
@@ -34,6 +35,17 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
       ? PiSpeakerSimpleHigh
       : PiSpeakerSimpleLow;
 
+  const [play, { pause, sound }] = useSound(songUrl, {
+    volume: volume,
+    onplay: () => setIsPlaying(true),
+    onend: () => {
+      setIsPlaying(false);
+      switchSongs.onPlayNext();
+    },
+    onpause: () => setIsPlaying(false),
+    format: ["mp3"],
+  });
+
   // Handle Mute Volume
   const toggleMute = () => {
     if (volume) {
@@ -43,6 +55,27 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
       setVolume(previousVolume);
     }
   };
+
+  // Handle PlayButton
+  const handlePlay = () => {
+    if (!isPlaying) {
+      play();
+    } else {
+      pause();
+    }
+  };
+
+  useEffect(() => {
+    sound?.play();
+
+    return () => {
+      sound?.unload();
+    };
+  }, [sound]);
+
+  useEffect(() => {
+    console.log("volume:", volume);
+  }, [volume]);
 
   return (
     <div
@@ -85,7 +118,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
         "
       >
         <div
-          onClick={() => {}}
+          onClick={handlePlay}
           className="
             h-10
             w-10
@@ -141,7 +174,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
             transition
           "
         >
-          <Icon size={30} className="text-black" />
+          <Icon onClick={handlePlay} size={30} className="text-black" />
         </div>
         <AiFillStepForward
           onClick={() => switchSongs.onPlayNext()}
