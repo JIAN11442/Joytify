@@ -1,5 +1,5 @@
+import { useEffect } from "react";
 import * as Slider from "@radix-ui/react-slider";
-import { useEffect, useRef, useState } from "react";
 
 interface VolumeSliderProps {
   value?: number;
@@ -11,9 +11,9 @@ const VolumeSlider: React.FC<VolumeSliderProps> = ({ value = 1, onChange }) => {
     onChange?.(newValue[0]);
   };
 
-  useEffect(() => {
-    console.log("volume:", value);
-  }, [value]);
+  //   useEffect(() => {
+  //     console.log("volume:", value);
+  //   }, [value]);
 
   return (
     <Slider.Root
@@ -31,7 +31,7 @@ const VolumeSlider: React.FC<VolumeSliderProps> = ({ value = 1, onChange }) => {
       value={[value]}
       onValueChange={handleChange}
       max={100}
-      step={5}
+      step={1}
       aria-label="Volume"
     >
       <Slider.Track

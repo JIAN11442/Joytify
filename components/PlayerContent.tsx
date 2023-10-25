@@ -12,6 +12,7 @@ import MediaItem from "./MediaItem";
 import LikeButton from "./LikeButton";
 import VolumeSlider from "./VolumeSlider";
 import usePlayer from "@/hooks/usePlayer";
+import useSwitchSongs from "@/hooks/useSwitchSongs";
 
 interface PlayerContentProps {
   song: Song;
@@ -23,6 +24,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   const [volume, setVolume] = useState(100);
   const [isPlaying, setIsPlaying] = useState(false);
   const [previousVolume, setPreviousVolume] = useState(volume);
+  const switchSongs = useSwitchSongs();
 
   const Icon = isPlaying ? BsPauseFill : BsPlayFill;
   const VolumeIcon =
@@ -114,7 +116,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
         "
       >
         <AiFillStepBackward
-          onClick={() => {}}
+          onClick={() => switchSongs.onPlayPrevious()}
           size={30}
           className="
             text-neutral-400
@@ -142,7 +144,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
           <Icon size={30} className="text-black" />
         </div>
         <AiFillStepForward
-          onClick={() => {}}
+          onClick={() => switchSongs.onPlayNext()}
           size={30}
           className="
             text-neutral-400
@@ -155,7 +157,6 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
       </div>
 
       {/* Volume For Middle Screen*/}
-
       <div
         className="
           hidden
