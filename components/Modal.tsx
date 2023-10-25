@@ -32,7 +32,7 @@ const Modal: React.FC<ModalProps> = ({
             fixed
             inset-0
             bg-neutral-900/90
-        "
+          "
         />
         <Dialog.Content
           className="
@@ -51,25 +51,25 @@ const Modal: React.FC<ModalProps> = ({
             h-auto
             hover:outline-none
             focus:outline-none
-        "
+          "
         >
           <Dialog.Title
             className="
-                text-xl
-                font-bold
-                text-center
-                mb-4
+              text-xl
+              font-bold
+              text-center
+              mb-4
             "
           >
             {title}
           </Dialog.Title>
           <Dialog.Description
             className="
-                text-sm
-                font-light
-                text-[#22c55e]
-                text-center
-                mb-5
+              text-sm
+              font-light
+              text-[#22c55e]
+              text-center
+              mb-5
             "
           >
             {description}
@@ -77,7 +77,7 @@ const Modal: React.FC<ModalProps> = ({
           <div>{children}</div>
           <Dialog.Close asChild>
             <button
-              onClick={authModal.onClose}
+              onClick={authModal.close}
               disabled={disabled}
               className="
                 absolute
@@ -91,7 +91,7 @@ const Modal: React.FC<ModalProps> = ({
                 text-neutral-400
                 disabled:hidden
                 hover:text-white
-            "
+              "
             >
               <IoMdClose size={20} />
             </button>

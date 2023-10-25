@@ -38,7 +38,7 @@ const Player = () => {
         bottom-0
         bg-black
         w-full
-        py-2
+        py-1
         px-4
       "
     >
