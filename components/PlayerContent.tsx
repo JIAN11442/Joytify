@@ -6,6 +6,9 @@ import {
   PiSpeakerSimpleX,
 } from "react-icons/pi";
 import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
+import { LiaRandomSolid } from "react-icons/lia";
+import { SlLoop } from "react-icons/sl";
+import useSound from "use-sound";
 
 import { Song } from "@/types";
 import MediaItem from "./MediaItem";
@@ -13,7 +16,7 @@ import LikeButton from "./LikeButton";
 import VolumeSlider from "./VolumeSlider";
 import usePlayer from "@/hooks/usePlayer";
 import useSwitchSongs from "@/hooks/useSwitchSongs";
-import useSound from "use-sound";
+import { CstmRandomSolid } from "@/public/svgs";
 
 interface PlayerContentProps {
   song: Song;
@@ -73,16 +76,6 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
       sound?.unload();
     };
   }, [sound]);
-
-  useEffect(() => {
-    if (sound) {
-      sound;
-    }
-  }, [volume]);
-
-  useEffect(() => {
-    console.log("volume:", volume);
-  }, [volume]);
 
   return (
     <div
@@ -155,17 +148,58 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
           gap-x-6
         "
       >
-        <AiFillStepBackward
-          onClick={() => switchSongs.onPlayPrevious()}
-          size={30}
+        {/* Random Switch Song */}
+        <div
           className="
-            text-neutral-400
-            cursor-pointer
-            hover:text-white
-            hover:scale-110
-            transition
+            relative
+            flex
+            items-center
+            justify-center
           "
-        />
+        >
+          <CstmRandomSolid
+            onClick={() => player.setRandomPlay(!player.randomPlay)}
+            className={`
+              h-[30px]
+              w-[30px]
+              cursor-pointer
+              transition
+              ${
+                player.randomPlay
+                  ? `text-green-500`
+                  : `text-neutral-400 hover:text-white`
+              }
+            `}
+          />
+          <div
+            className={`
+              absolute
+              bottom-0
+              w-1
+              h-1
+              bg-green-500
+              rounded-full
+              ${player.randomPlay ? "flex" : "hidden"}
+            `}
+          ></div>
+        </div>
+
+        {/* Switch to Previous Song */}
+        <div>
+          <AiFillStepBackward
+            size={30}
+            onClick={() => switchSongs.onPlayPrevious()}
+            className="
+              text-neutral-400
+              cursor-pointer
+              hover:text-white
+              hover:scale-110
+              transition
+            "
+          />
+        </div>
+
+        {/* Play Button && Pause Button */}
         <div
           className="
             flex
@@ -183,17 +217,21 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
         >
           <Icon onClick={handlePlay} size={30} className="text-black" />
         </div>
-        <AiFillStepForward
-          onClick={() => switchSongs.onPlayNext()}
-          size={30}
-          className="
-            text-neutral-400
-            cursor-pointer
-            hover:text-white
-            hover:scale-110
-            transition
-          "
-        />
+
+        {/* Switch to Next Song */}
+        <div>
+          <AiFillStepForward
+            onClick={() => switchSongs.onPlayNext()}
+            size={30}
+            className="
+              text-neutral-400
+              cursor-pointer
+              hover:text-white
+              hover:scale-110
+              transition
+            "
+          />
+        </div>
       </div>
 
       {/* Volume For Middle Screen*/}

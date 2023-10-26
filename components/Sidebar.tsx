@@ -11,6 +11,7 @@ import Library from "./Library";
 import SidebarItem from "./SidebarItem";
 import useCollapse from "@/hooks/useCollapse";
 import usePlayer from "@/hooks/usePlayer";
+import { twMerge } from "tailwind-merge";
 
 interface SidebarProps {
   children?: React.ReactNode;
@@ -41,14 +42,15 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songsByUserId }) => {
 
   return (
     <div
-      className={`
+      className={twMerge(
+        `
         flex
         h-full
         p-2
         pr-0
         gap-x-2
-        ${player.activeId && `h-[calc(100%-62px)]`}
-      `}
+      `
+      )}
     >
       {/* Sidebar */}
       <div

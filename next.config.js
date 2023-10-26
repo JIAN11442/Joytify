@@ -3,6 +3,15 @@ const nextConfig = {
   images: {
     domains: ["ibkcwuenycxzhdzotcgt.supabase.co"],
   },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.module.rules.push({
+        test: /\.svg$/,
+        use: [{ loader: "@svgr/webpack", options: { icon: true } }],
+      });
+    }
+    return config;
+  },
 };
 
 module.exports = nextConfig;
