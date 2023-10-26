@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo } from "react";
 import { HiHome } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
+import { twMerge } from "tailwind-merge";
 import { usePathname } from "next/navigation";
 
 import Box from "./Box";
@@ -11,7 +12,6 @@ import Library from "./Library";
 import SidebarItem from "./SidebarItem";
 import useCollapse from "@/hooks/useCollapse";
 import usePlayer from "@/hooks/usePlayer";
-import { twMerge } from "tailwind-merge";
 
 interface SidebarProps {
   children?: React.ReactNode;
@@ -49,7 +49,8 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songsByUserId }) => {
         p-2
         pr-0
         gap-x-2
-      `
+      `,
+        player.activeId && "h-[calc(100%-60px)]"
       )}
     >
       {/* Sidebar */}

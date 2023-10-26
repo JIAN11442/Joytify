@@ -6,7 +6,6 @@ import {
   PiSpeakerSimpleX,
 } from "react-icons/pi";
 import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
-import { LiaRandomSolid } from "react-icons/lia";
 import { SlLoop } from "react-icons/sl";
 import useSound from "use-sound";
 
@@ -16,7 +15,7 @@ import LikeButton from "./LikeButton";
 import VolumeSlider from "./VolumeSlider";
 import usePlayer from "@/hooks/usePlayer";
 import useSwitchSongs from "@/hooks/useSwitchSongs";
-import { CstmRandomSolid } from "@/public/svgs";
+import { CstmLoopSolid, CstmRandomSolid } from "@/public/svgs";
 
 interface PlayerContentProps {
   song: Song;
@@ -232,6 +231,17 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
             "
           />
         </div>
+
+        {/* Loop Songs */}
+        <div>
+          <CstmLoopSolid
+            className={`
+              w-[30px]
+              h-[30px]
+
+            `}
+          />
+        </div>
       </div>
 
       {/* Volume For Middle Screen*/}
@@ -270,3 +280,8 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
 };
 
 export default PlayerContent;
+
+// http://kfekajik.hkwsxxw.cn/article/20231022-vyw-294b599610.html
+
+https://www.flaticon.com/free-icon/loop_7764660?term=loop&page=1&position=57&origin=search&related_id=7764660
+https://convertio.co/zh/download/e8f0c7668a7be447e82e30226671b24a05bd7f/
