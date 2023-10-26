@@ -22,7 +22,7 @@ interface PlayerContentProps {
 
 const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   const player = usePlayer();
-  const [volume, setVolume] = useState(100);
+  const [volume, setVolume] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [previousVolume, setPreviousVolume] = useState(volume);
   const switchSongs = useSwitchSongs();
@@ -31,7 +31,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   const VolumeIcon =
     volume === 0
       ? PiSpeakerSimpleX
-      : volume >= 50
+      : volume >= 0.5
       ? PiSpeakerSimpleHigh
       : PiSpeakerSimpleLow;
 
@@ -65,6 +65,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
     }
   };
 
+  // When Click SongCard, Play the Songs Immediately
   useEffect(() => {
     sound?.play();
 
@@ -72,6 +73,12 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
       sound?.unload();
     };
   }, [sound]);
+
+  useEffect(() => {
+    if (sound) {
+      sound;
+    }
+  }, [volume]);
 
   useEffect(() => {
     console.log("volume:", volume);

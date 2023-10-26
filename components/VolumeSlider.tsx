@@ -12,10 +12,6 @@ const VolumeSlider: React.FC<VolumeSliderProps> = ({ value = 1, onChange }) => {
     onChange?.(newValue[0]);
   };
 
-  //   useEffect(() => {
-  //     console.log("volume:", value);
-  //   }, [value]);
-
   return (
     <Slider.Root
       className="
@@ -28,20 +24,20 @@ const VolumeSlider: React.FC<VolumeSliderProps> = ({ value = 1, onChange }) => {
         w-full
         h-3
       "
-      defaultValue={[100]}
+      defaultValue={[1]}
       value={[value]}
       onValueChange={handleChange}
-      max={100}
-      step={1}
+      max={1}
+      step={0.01}
       aria-label="Volume"
     >
       <Slider.Track
         className="
-            relative
-            grow
-            h-[4px]
-            rounded-full
-            bg-neutral-600
+          relative
+          grow
+          h-[4px]
+          rounded-full
+          bg-neutral-600
         "
       >
         <Slider.Range
