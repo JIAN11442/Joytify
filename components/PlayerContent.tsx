@@ -24,21 +24,20 @@ interface PlayerContentProps {
 
 const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   const player = usePlayer();
-  const [volume, setVolume] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [previousVolume, setPreviousVolume] = useState(volume);
+  const [previousVolume, setPreviousVolume] = useState(player.volume);
   const switchSongs = useSwitchSongs();
 
   const Icon = isPlaying ? BsPauseFill : BsPlayFill;
   const VolumeIcon =
-    volume === 0
+    player.volume === 0
       ? PiSpeakerSimpleX
-      : volume >= 0.5
+      : player.volume >= 0.5
       ? PiSpeakerSimpleHigh
       : PiSpeakerSimpleLow;
 
   const [play, { pause, sound }] = useSound(songUrl, {
-    volume: volume,
+    volume: player.volume,
     onplay: () => setIsPlaying(true),
     onend: () => {
       setIsPlaying(false);
@@ -50,11 +49,11 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
 
   // Handle Mute Volume
   const toggleMute = () => {
-    if (volume) {
-      setPreviousVolume(volume);
-      setVolume(0);
+    if (player.volume) {
+      setPreviousVolume(player.volume);
+      player.setVolume(0);
     } else {
-      setVolume(previousVolume);
+      player.setVolume(previousVolume);
     }
   };
 
@@ -272,7 +271,10 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
               transition
             "
           />
-          <VolumeSlider value={volume} onChange={(value) => setVolume(value)} />
+          <VolumeSlider
+            value={player.volume}
+            onChange={(value) => player.setVolume(value)}
+          />
         </div>
       </div>
     </div>
@@ -283,5 +285,5 @@ export default PlayerContent;
 
 // http://kfekajik.hkwsxxw.cn/article/20231022-vyw-294b599610.html
 
-https://www.flaticon.com/free-icon/loop_7764660?term=loop&page=1&position=57&origin=search&related_id=7764660
-https://convertio.co/zh/download/e8f0c7668a7be447e82e30226671b24a05bd7f/
+// https://www.flaticon.com/free-icon/loop_7764660?term=loop&page=1&position=57&origin=search&related_id=7764660
+// https://convertio.co/zh/download/e8f0c7668a7be447e82e30226671b24a05bd7f/

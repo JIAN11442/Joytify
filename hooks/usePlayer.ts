@@ -8,6 +8,7 @@ interface usePlayerProps {
   randomPlay: boolean;
   allLoopPlay: boolean;
   singleLoopPlay: boolean;
+  volume: number;
 
   setId: (id: string) => void;
   setIds: (ids: string[]) => void;
@@ -16,6 +17,7 @@ interface usePlayerProps {
   setAllLoopPlay: (status: boolean) => void;
   setSingleLoopPlay: (status: boolean) => void;
   setPlayerRef: (width: number, height: number) => void;
+  setVolume: (value: number) => void;
 }
 
 const usePlayer = create<usePlayerProps>((set) => ({
@@ -26,6 +28,7 @@ const usePlayer = create<usePlayerProps>((set) => ({
   randomPlay: false,
   allLoopPlay: false,
   singleLoopPlay: false,
+  volume: 1,
 
   setPlayerRef: (width: number, height: number) =>
     set({ playerWidth: width, playerHeight: height }),
@@ -35,6 +38,7 @@ const usePlayer = create<usePlayerProps>((set) => ({
   setRandomPlay: (status: boolean) => set({ randomPlay: status }),
   setAllLoopPlay: (status: boolean) => set({ allLoopPlay: status }),
   setSingleLoopPlay: (status: boolean) => set({ singleLoopPlay: status }),
+  setVolume: (value: number) => set({ volume: value }),
 }));
 
 export default usePlayer;
