@@ -11,3 +11,22 @@ body,
   background-color: black;
   color-scheme: dark;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* ::-webkit-scrollbar-track {
+  background: #000;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+} */

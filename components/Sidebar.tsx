@@ -8,10 +8,11 @@ import { usePathname } from "next/navigation";
 
 import Box from "./Box";
 import { Song } from "@/types";
-import Library from "./Library";
+import LibraryBody from "./LibraryBody";
 import SidebarItem from "./SidebarItem";
 import useCollapse from "@/hooks/useCollapse";
 import usePlayer from "@/hooks/usePlayer";
+import LibraryHeader from "./LibraryHeader";
 
 interface SidebarProps {
   children?: React.ReactNode;
@@ -58,7 +59,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songsByUserId }) => {
         className={`
           flex
           flex-col
-          ${isCollapse ? "w-[77px]" : "w-[300px] lg:w-[350px] hidden md:flex"}
+          ${isCollapse ? "w-[70px]" : "w-[300px] lg:w-[350px] hidden md:flex"}
           h-full
           gap-y-2
         `}
@@ -70,7 +71,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songsByUserId }) => {
               flex
               flex-col
               py-5
-              px-4
+              px-3
               gap-y-4
             `}
           >
@@ -81,17 +82,44 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songsByUserId }) => {
         </Box>
 
         {/* Library */}
+        <Box
+          className="
+            flex
+            flex-col
+            w-full
+            overflow-hidden
+          "
+        >
+          {/* Header */}
+          <Box className="rounded-b-none">
+            <div
+              className="
+                flex-1
+                py-2
+                pl-5
+                pr-3
+              "
+            >
+              <LibraryHeader songsByUserId={songsByUserId} />
+            </div>
+          </Box>
 
-        <Box className="h-full p-2 overflow-y-auto">
-          <div
+          {/* Body */}
+          <Box
             className="
-              flex
-              flex-col
-              gap-y-4
+              flex 
+              flex-col 
+              px-2
+              pt-2
+              overflow-x-hidden
+              overflow-y-auto 
+              rounded-t-none
             "
           >
-            <Library songsByUserId={songsByUserId} />
-          </div>
+            <div>
+              <LibraryBody songsByUserId={songsByUserId} />
+            </div>
+          </Box>
         </Box>
       </div>
 

@@ -1,16 +1,24 @@
-import { FaPlay } from "react-icons/fa";
+"use client";
+
+import usePlayer from "@/hooks/usePlayer";
+import { Song } from "@/types";
+import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 import { twMerge } from "tailwind-merge";
 
 interface PlayButtonProps {
+  song: Song;
   className?: string;
 }
 
-const PlayButton: React.FC<PlayButtonProps> = ({ className }) => {
+const PlayButton: React.FC<PlayButtonProps> = ({ song, className }) => {
+  const { activeId, isPlaying } = usePlayer();
+  const Icon = song?.id === activeId && isPlaying ? BsPauseFill : BsPlayFill;
+
   return (
     <button
       className={twMerge(
         `
-        p-4
+        p-3
         bg-green-500
         rounded-full
         drop-shadow-lg
@@ -24,7 +32,7 @@ const PlayButton: React.FC<PlayButtonProps> = ({ className }) => {
         className
       )}
     >
-      <FaPlay color="black" />
+      <Icon color="black" size={30} />
     </button>
   );
 };

@@ -1,0 +1,36 @@
+http://kfekajik.hkwsxxw.cn/article/20231022-vyw-294b599610.html
+
+https://www.flaticon.com/free-icon/loop_7764660?term=loop&page=1&position=57&origin=search&related_id=7764660
+https://convertio.co/zh/download/e8f0c7668a7be447e82e30226671b24a05bd7f/
+
+
+
+[music wave]
+https://stackoverflow.com/questions/61430300/how-to-get-a-waveform-music-player-with-angular-typescript
+
+
+
+[Debug]
+
+1. Sidebar
+    a. Sidebar Library 中的 UserSongList 拖拉的時候會報錯
+
+2. SongCard
+    a. 當音樂播放時，音樂卡片要隨著音律跳動
+    b. 也要有 Music Wave
+
+3. 播放器
+    a. 隨機播放鍵：啟動時，下一首歌曲會隨意選擇
+    b. 循環播放鍵：分兩段
+        i. 第一段 -> 播完這首，接著按 id 播放下一首
+        ii. 第二段 -> 同一首一直循環
+    c. 正常：一首播完就停
+    d. 跳轉(左)：向前跳轉音樂
+    d. 跳轉(右)：向後跳轉音樂
+
+4. 音樂卡排列
+    a. 大卡片
+    b. 列條
+
+5. 播放音樂
+    a. 點選卡片時，應該停止音樂

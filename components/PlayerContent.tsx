@@ -6,8 +6,6 @@ import {
   PiSpeakerSimpleX,
 } from "react-icons/pi";
 import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
-import { SlLoop } from "react-icons/sl";
-import useSound from "use-sound";
 
 import { Song } from "@/types";
 import MediaItem from "./MediaItem";
@@ -16,6 +14,7 @@ import VolumeSlider from "./VolumeSlider";
 import usePlayer from "@/hooks/usePlayer";
 import useSwitchSongs from "@/hooks/useSwitchSongs";
 import { CstmLoopSolid, CstmRandomSolid } from "@/public/svgs";
+import useSoundOperation from "@/hooks/useSoundOperation";
 
 interface PlayerContentProps {
   song: Song;
@@ -23,37 +22,36 @@ interface PlayerContentProps {
 }
 
 const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
-  const player = usePlayer();
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [previousVolume, setPreviousVolume] = useState(player.volume);
+  const {
+    isPlaying,
+    setIsPlaying,
+    volume,
+    setVolume,
+    randomPlay,
+    setRandomPlay,
+    allLoopPlay,
+    setAllLoopPlay,
+  } = usePlayer();
+  const [previousVolume, setPreviousVolume] = useState(volume);
   const switchSongs = useSwitchSongs();
 
   const Icon = isPlaying ? BsPauseFill : BsPlayFill;
   const VolumeIcon =
-    player.volume === 0
+    volume === 0
       ? PiSpeakerSimpleX
-      : player.volume >= 0.5
+      : volume >= 0.5
       ? PiSpeakerSimpleHigh
       : PiSpeakerSimpleLow;
 
-  const [play, { pause, sound }] = useSound(songUrl, {
-    volume: player.volume,
-    onplay: () => setIsPlaying(true),
-    onend: () => {
-      setIsPlaying(false);
-      switchSongs.onPlayNext();
-    },
-    onpause: () => setIsPlaying(false),
-    format: ["mp3"],
-  });
+  const { play, pause, sound } = useSoundOperation(songUrl);
 
   // Handle Mute Volume
   const toggleMute = () => {
-    if (player.volume) {
-      setPreviousVolume(player.volume);
-      player.setVolume(0);
+    if (volume) {
+      setPreviousVolume(volume);
+      setVolume(0);
     } else {
-      player.setVolume(previousVolume);
+      setVolume(previousVolume);
     }
   };
 
@@ -68,6 +66,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
 
   // When Click SongCard, Play the Songs Immediately
   useEffect(() => {
+    console.log(sound);
     sound?.play();
 
     return () => {
@@ -156,14 +155,14 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
           "
         >
           <CstmRandomSolid
-            onClick={() => player.setRandomPlay(!player.randomPlay)}
+            onClick={() => setRandomPlay(randomPlay)}
             className={`
               h-[30px]
               w-[30px]
               cursor-pointer
               transition
               ${
-                player.randomPlay
+                randomPlay
                   ? `text-green-500`
                   : `text-neutral-400 hover:text-white`
               }
@@ -177,7 +176,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
               h-1
               bg-green-500
               rounded-full
-              ${player.randomPlay ? "flex" : "hidden"}
+              ${randomPlay ? "flex" : "hidden"}
             `}
           ></div>
         </div>
@@ -199,6 +198,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
 
         {/* Play Button && Pause Button */}
         <div
+          onClick={handlePlay}
           className="
             flex
             items-center
@@ -213,7 +213,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
             transition
           "
         >
-          <Icon onClick={handlePlay} size={30} className="text-black" />
+          <Icon size={30} className="text-black" />
         </div>
 
         {/* Switch to Next Song */}
@@ -271,10 +271,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
               transition
             "
           />
-          <VolumeSlider
-            value={player.volume}
-            onChange={(value) => player.setVolume(value)}
-          />
+          <VolumeSlider value={volume} onChange={(value) => setVolume(value)} />
         </div>
       </div>
     </div>
