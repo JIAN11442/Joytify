@@ -13,10 +13,6 @@ const Player = () => {
   const { song } = useGetSongById(player.activeId);
   const songUrl = useLoadSongUrl(song!);
 
-  // useEffect(() => {
-  //   player.reset();
-  // }, []);
-
   // get player div height to sidebar
   useEffect(() => {
     if (playerRef.current) {

@@ -87,6 +87,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songsByUserId }) => {
             flex
             flex-col
             w-full
+            h-full
             overflow-hidden
           "
         >
@@ -97,7 +98,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songsByUserId }) => {
                 flex-1
                 py-2
                 pl-5
-                pr-3
+                pr-4
               "
             >
               <LibraryHeader songsByUserId={songsByUserId} />

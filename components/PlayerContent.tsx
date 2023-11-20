@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
-import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 import {
   PiSpeakerSimpleLow,
   PiSpeakerSimpleHigh,
   PiSpeakerSimpleX,
 } from "react-icons/pi";
-import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
 
-import { Song } from "@/types";
 import MediaItem from "./MediaItem";
 import LikeButton from "./LikeButton";
 import VolumeSlider from "./VolumeSlider";
+import PlayerOperation from "./PlayerOperation";
+
+import { Song } from "@/types";
 import usePlayer from "@/hooks/usePlayer";
-import useSwitchSongs from "@/hooks/useSwitchSongs";
-import { CstmLoopSolid, CstmRandomSolid } from "@/public/svgs";
 import useSoundOperation from "@/hooks/useSoundOperation";
 
 interface PlayerContentProps {
@@ -22,20 +20,9 @@ interface PlayerContentProps {
 }
 
 const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
-  const {
-    isPlaying,
-    setIsPlaying,
-    volume,
-    setVolume,
-    randomPlay,
-    setRandomPlay,
-    allLoopPlay,
-    setAllLoopPlay,
-  } = usePlayer();
+  const { volume, setVolume, setSound } = usePlayer();
   const [previousVolume, setPreviousVolume] = useState(volume);
-  const switchSongs = useSwitchSongs();
 
-  const Icon = isPlaying ? BsPauseFill : BsPlayFill;
   const VolumeIcon =
     volume === 0
       ? PiSpeakerSimpleX
@@ -43,7 +30,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
       ? PiSpeakerSimpleHigh
       : PiSpeakerSimpleLow;
 
-  const { play, pause, sound } = useSoundOperation(songUrl);
+  const { sound } = useSoundOperation(songUrl);
 
   // Handle Mute Volume
   const toggleMute = () => {
@@ -55,18 +42,9 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
     }
   };
 
-  // Handle PlayButton
-  const handlePlay = () => {
-    if (!isPlaying) {
-      play();
-    } else {
-      pause();
-    }
-  };
-
   // When Click SongCard, Play the Songs Immediately
   useEffect(() => {
-    console.log(sound);
+    setSound(sound);
     sound?.play();
 
     return () => {
@@ -103,144 +81,15 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
         </div>
       </div>
 
-      {/* PlayButton For Small Screen */}
       <div
         className="
           flex
-          md:hidden
-          col-auto
-          w-full
+          item-center
           justify-end
-          items-center
+          md:justify-center
         "
       >
-        <div
-          onClick={handlePlay}
-          className="
-            h-10
-            w-10
-            flex
-            items-center
-            justify-center
-            rounded-full
-            bg-white
-            p-1
-            cursor-pointer
-          "
-        >
-          <Icon size={30} className="text-black" />
-        </div>
-      </div>
-
-      {/* PlayButton For Middle Screen*/}
-      <div
-        className="
-          hidden
-          h-full
-          md:flex
-          justify-center
-          items-center
-          w-full
-          max-w-[722px]
-          gap-x-6
-        "
-      >
-        {/* Random Switch Song */}
-        <div
-          className="
-            relative
-            flex
-            items-center
-            justify-center
-          "
-        >
-          <CstmRandomSolid
-            onClick={() => setRandomPlay(randomPlay)}
-            className={`
-              h-[30px]
-              w-[30px]
-              cursor-pointer
-              transition
-              ${
-                randomPlay
-                  ? `text-green-500`
-                  : `text-neutral-400 hover:text-white`
-              }
-            `}
-          />
-          <div
-            className={`
-              absolute
-              bottom-0
-              w-1
-              h-1
-              bg-green-500
-              rounded-full
-              ${randomPlay ? "flex" : "hidden"}
-            `}
-          ></div>
-        </div>
-
-        {/* Switch to Previous Song */}
-        <div>
-          <AiFillStepBackward
-            size={30}
-            onClick={() => switchSongs.onPlayPrevious()}
-            className="
-              text-neutral-400
-              cursor-pointer
-              hover:text-white
-              hover:scale-110
-              transition
-            "
-          />
-        </div>
-
-        {/* Play Button && Pause Button */}
-        <div
-          onClick={handlePlay}
-          className="
-            flex
-            items-center
-            justify-center
-            h-10
-            w-10
-            p-1
-            bg-white
-            rounded-full
-            cursor-pointer
-            hover:scale-110
-            transition
-          "
-        >
-          <Icon size={30} className="text-black" />
-        </div>
-
-        {/* Switch to Next Song */}
-        <div>
-          <AiFillStepForward
-            onClick={() => switchSongs.onPlayNext()}
-            size={30}
-            className="
-              text-neutral-400
-              cursor-pointer
-              hover:text-white
-              hover:scale-110
-              transition
-            "
-          />
-        </div>
-
-        {/* Loop Songs */}
-        <div>
-          <CstmLoopSolid
-            className={`
-              w-[30px]
-              h-[30px]
-
-            `}
-          />
-        </div>
+        <PlayerOperation sound={sound} />
       </div>
 
       {/* Volume For Middle Screen*/}

@@ -3,22 +3,18 @@ import usePlayer from "./usePlayer";
 const useSwitchSongs = () => {
   const player = usePlayer();
 
-  const onPlayNext = () => {
+  const next = () => {
     if (player.ids.length === 0) {
       return;
     }
 
     const currentIndex = player.ids.findIndex((id) => id === player.activeId);
-    const nextSong = player.ids[currentIndex + 1];
-
-    if (!nextSong) {
-      return player.setId(player.ids[0]);
-    }
+    const nextSong = player.ids[(currentIndex + 1) % player.ids.length];
 
     player.setId(nextSong);
   };
 
-  const onPlayPrevious = () => {
+  const previous = () => {
     if (player.ids.length === 0) {
       return;
     }
@@ -34,8 +30,8 @@ const useSwitchSongs = () => {
   };
 
   return {
-    onPlayNext,
-    onPlayPrevious,
+    next,
+    previous,
   };
 };
 

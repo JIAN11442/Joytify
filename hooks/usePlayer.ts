@@ -1,25 +1,28 @@
 import { create } from "zustand";
+import { Howl } from "howler";
 
 interface usePlayerProps {
   activeId?: string;
   ids: string[];
   playerWidth: number;
   playerHeight: number;
-  randomPlay: boolean;
-  allLoopPlay: boolean;
-  singleLoopPlay: boolean;
   volume: number;
   isPlaying: boolean;
+  playerStatus: { shuffle: boolean; aLoop: boolean; sLoop: boolean };
+  sound: Howl | null;
 
   setId: (id: string) => void;
   setIds: (ids: string[]) => void;
   reset: () => void;
-  setRandomPlay: (status: boolean) => void;
-  setAllLoopPlay: (status: boolean) => void;
-  setSingleLoopPlay: (status: boolean) => void;
   setPlayerRef: (width: number, height: number) => void;
   setVolume: (value: number) => void;
   setIsPlaying: (status: boolean) => void;
+  setPlayerStatus: (status: {
+    sh_status?: boolean | undefined;
+    alp_status?: boolean | undefined;
+    slp_status?: boolean | undefined;
+  }) => void;
+  setSound: (value: Howl | null) => void;
 }
 
 const usePlayer = create<usePlayerProps>((set) => ({
@@ -30,19 +33,30 @@ const usePlayer = create<usePlayerProps>((set) => ({
   randomPlay: false,
   allLoopPlay: false,
   singleLoopPlay: false,
-  volume: 1,
+  volume: 0.8,
   isPlaying: false,
+  playerStatus: { shuffle: false, aLoop: false, sLoop: false },
+  sound: null,
 
   setId: (id: string) => set({ activeId: id }),
   setIds: (ids: string[]) => set({ ids: ids }),
   reset: () => set({ activeId: undefined, ids: [] }),
-  setRandomPlay: (status: boolean) => set({ randomPlay: status }),
-  setAllLoopPlay: (status: boolean) => set({ allLoopPlay: status }),
-  setSingleLoopPlay: (status: boolean) => set({ singleLoopPlay: status }),
   setPlayerRef: (width: number, height: number) =>
     set({ playerWidth: width, playerHeight: height }),
   setVolume: (value: number) => set({ volume: value }),
   setIsPlaying: (status: boolean) => set({ isPlaying: status }),
+  setPlayerStatus: ({ sh_status, alp_status, slp_status }) =>
+    set((prevStatus) => ({
+      playerStatus: {
+        shuffle:
+          sh_status !== undefined ? sh_status : prevStatus.playerStatus.shuffle,
+        aLoop:
+          alp_status !== undefined ? alp_status : prevStatus.playerStatus.aLoop,
+        sLoop:
+          slp_status !== undefined ? slp_status : prevStatus.playerStatus.sLoop,
+      },
+    })),
+  setSound: (value: Howl | null) => set({ sound: value }),
 }));
 
 export default usePlayer;

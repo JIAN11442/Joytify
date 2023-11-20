@@ -6,14 +6,14 @@ import useSwitchSongs from "./useSwitchSongs";
 
 const useSoundOperation = (songUrl: string) => {
   const { volume, setIsPlaying } = usePlayer();
-  const switchSongs = useSwitchSongs();
+  const { next, previous } = useSwitchSongs();
 
   const [play, { pause, sound }] = useSound(songUrl, {
     volume: volume,
     onplay: () => setIsPlaying(true),
     onend: () => {
       setIsPlaying(false);
-      switchSongs.onPlayNext();
+      next();
     },
     onpause: () => setIsPlaying(false),
     format: ["mp3"],

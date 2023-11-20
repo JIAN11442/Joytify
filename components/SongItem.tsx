@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDrag } from "react-dnd";
 import { getEmptyImage } from "react-dnd-html5-backend";
 
@@ -10,31 +10,28 @@ import PlayButton from "./PlayButton";
 import usePlayer from "@/hooks/usePlayer";
 import useUploadImage from "@/hooks/useLoadImage";
 import useOnPlay from "@/hooks/useOnPlay";
-import useSoundOperation from "@/hooks/useSoundOperation";
-import useLoadSongUrl from "@/hooks/useLoadSongUrl";
 
 interface SongItemProps {
   song: Song;
   songs: Song[];
-  // onClick: (id: string) => void;
 }
 
 const SongItem: React.FC<SongItemProps> = ({ song, songs }) => {
   const imagePath = useUploadImage(song);
-  const player = usePlayer();
+  const { sound, activeId, isPlaying } = usePlayer();
   const onPlay = useOnPlay(songs);
-  const songUrl = useLoadSongUrl(song);
-  const { play, pause } = useSoundOperation(songUrl);
+  const [prevSongId, setPrevSongId] = useState<string>("");
 
   const handlePlayCard = () => {
-    onPlay(song.id);
-    if (player.activeId) {
-      // if (player.isPlaying) {
-      //   pause();
-      // } else {
-      //   play();
-      // }
+    if (song.id === prevSongId) {
+      if (!isPlaying) {
+        sound?.play();
+      } else {
+        sound?.pause();
+      }
     } else {
+      onPlay(song.id);
+      setPrevSongId(song.id);
     }
   };
 
@@ -55,10 +52,6 @@ const SongItem: React.FC<SongItemProps> = ({ song, songs }) => {
     dragPreview(getEmptyImage(), { captureDraggingState: true });
   }, []);
 
-  // if (!song) {
-  //   return;
-  // }
-
   return (
     <div
       onClick={handlePlayCard}
@@ -77,7 +70,7 @@ const SongItem: React.FC<SongItemProps> = ({ song, songs }) => {
         hover:shadow-green-500/80
         hover:scale-[1.03]
         transition
-        ${player.activeId === song.id && "shadow-green-500"}
+        ${activeId === song.id && "shadow-green-500"}
       `}
     >
       {/* Image && PlayButton */}
