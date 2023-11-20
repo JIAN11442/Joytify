@@ -29,6 +29,8 @@ const useSwitchSongs = () => {
     player.setId(previousSong);
   };
 
+  const cycle = () => {};
+
   return {
     next,
     previous,

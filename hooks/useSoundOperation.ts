@@ -8,7 +8,7 @@ const useSoundOperation = (songUrl: string) => {
   const { volume, setIsPlaying } = usePlayer();
   const { next, previous } = useSwitchSongs();
 
-  const [play, { pause, sound }] = useSound(songUrl, {
+  const [play, { pause, sound, duration }] = useSound(songUrl, {
     volume: volume,
     onplay: () => setIsPlaying(true),
     onend: () => {
@@ -23,6 +23,7 @@ const useSoundOperation = (songUrl: string) => {
     play,
     pause,
     sound,
+    duration,
   };
 };
 

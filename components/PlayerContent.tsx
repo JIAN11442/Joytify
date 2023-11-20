@@ -9,6 +9,7 @@ import MediaItem from "./MediaItem";
 import LikeButton from "./LikeButton";
 import VolumeSlider from "./VolumeSlider";
 import PlayerOperation from "./PlayerOperation";
+import PlayerSlider from "./PlayerSlider";
 
 import { Song } from "@/types";
 import usePlayer from "@/hooks/usePlayer";
@@ -20,7 +21,7 @@ interface PlayerContentProps {
 }
 
 const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
-  const { volume, setVolume, setSound } = usePlayer();
+  const { volume, setVolume, setSound, setDuration } = usePlayer();
   const [previousVolume, setPreviousVolume] = useState(volume);
 
   const VolumeIcon =
@@ -30,7 +31,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
       ? PiSpeakerSimpleHigh
       : PiSpeakerSimpleLow;
 
-  const { sound } = useSoundOperation(songUrl);
+  const { sound, duration } = useSoundOperation(songUrl);
 
   // Handle Mute Volume
   const toggleMute = () => {
@@ -45,6 +46,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   // When Click SongCard, Play the Songs Immediately
   useEffect(() => {
     setSound(sound);
+    setDuration(duration);
     sound?.play();
 
     return () => {
@@ -55,17 +57,17 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   return (
     <div
       className="
-        grid
-        grid-cols-2
-        md:grid-cols-3
-        h-full
+        flex
+        flex-row
+        gap-x-2
+        items-center
+        justify-center
       "
     >
       {/* MediaItem && LikeButton */}
       <div
         className="
           flex
-          w-full
           justify-start
         "
       >
@@ -81,24 +83,46 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
         </div>
       </div>
 
+      {/* Song Slider && Operation */}
       <div
         className="
           flex
-          item-center
+          w-full
+          px-10
           justify-end
           md:justify-center
         "
       >
-        <PlayerOperation sound={sound} />
+        <div
+          className="
+            flex
+            flex-col
+            max-w-[722px]
+            md:w-full
+          "
+        >
+          {/* Player Slider */}
+          <div
+            className="
+              hidden
+              md:flex
+            "
+          >
+            <PlayerSlider />
+          </div>
+
+          {/* Player Operation */}
+          <div>
+            <PlayerOperation sound={sound} />
+          </div>
+        </div>
       </div>
 
-      {/* Volume For Middle Screen*/}
+      {/* Volume */}
       <div
         className="
           hidden
           md:flex
-          w-full
-          justify-end
           pr-2
         "
       >

@@ -23,7 +23,8 @@ const SongItem: React.FC<SongItemProps> = ({ song, songs }) => {
   const [prevSongId, setPrevSongId] = useState<string>("");
 
   const handlePlayCard = () => {
-    if (song.id === prevSongId) {
+    console.log(activeId, prevSongId);
+    if (activeId === prevSongId) {
       if (!isPlaying) {
         sound?.play();
       } else {
@@ -33,14 +34,6 @@ const SongItem: React.FC<SongItemProps> = ({ song, songs }) => {
       onPlay(song.id);
       setPrevSongId(song.id);
     }
-  };
-
-  const handlePlayButton = () => {
-    // if (player.isPlaying) {
-    //   pause();
-    // } else {
-    //   play();
-    // }
   };
 
   const [, dragRef, dragPreview] = useDrag(() => ({
@@ -99,7 +92,6 @@ const SongItem: React.FC<SongItemProps> = ({ song, songs }) => {
 
         {/* Play Button */}
         <div
-          onClick={handlePlayButton}
           className="
             absolute
             bottom-2

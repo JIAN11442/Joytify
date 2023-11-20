@@ -10,6 +10,7 @@ interface usePlayerProps {
   isPlaying: boolean;
   playerStatus: { shuffle: boolean; aLoop: boolean; sLoop: boolean };
   sound: Howl | null;
+  duration: number | null;
 
   setId: (id: string) => void;
   setIds: (ids: string[]) => void;
@@ -23,6 +24,7 @@ interface usePlayerProps {
     slp_status?: boolean | undefined;
   }) => void;
   setSound: (value: Howl | null) => void;
+  setDuration: (value: number | null) => void;
 }
 
 const usePlayer = create<usePlayerProps>((set) => ({
@@ -37,6 +39,7 @@ const usePlayer = create<usePlayerProps>((set) => ({
   isPlaying: false,
   playerStatus: { shuffle: false, aLoop: false, sLoop: false },
   sound: null,
+  duration: null,
 
   setId: (id: string) => set({ activeId: id }),
   setIds: (ids: string[]) => set({ ids: ids }),
@@ -57,6 +60,7 @@ const usePlayer = create<usePlayerProps>((set) => ({
       },
     })),
   setSound: (value: Howl | null) => set({ sound: value }),
+  setDuration: (value: number | null) => set({ duration: value }),
 }));
 
 export default usePlayer;

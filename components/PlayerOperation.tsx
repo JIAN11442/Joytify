@@ -25,185 +25,174 @@ const PlayerOperation: React.FC<PlayerOperationProps> = ({ sound }) => {
   };
 
   return (
-    <div>
+    <div
+      className="
+        flex
+        h-full
+        w-full
+        items-center
+        justify-center
+        gap-x-2
+      "
+    >
+      {/* Shuffle */}
       <div
-        className="
-          flex
-          h-full
-          w-full
+        onClick={() => {
+          setPlayerStatus({
+            sh_status: !playerStatus.shuffle,
+            alp_status: false,
+            slp_status: false,
+          });
+        }}
+        className={`
+          hidden
+          md:flex
           items-center
           justify-center
-          max-w-[722px]
-          gap-x-3
+          hover:scale-110
+          cursor-pointer
+          transition
+        `}
+      >
+        <CstmShuffleSolid
+          className={`
+            h-[28px]
+            w-[28px]
+            ${
+              playerStatus.shuffle
+                ? `text-[#00fd0a]`
+                : `text-neutral-400
+                   hover:text-white
+                 `
+            }
+          `}
+        />
+        <div
+          className={`
+            w-[3px]
+            h-[3px]
+            bg-[#00fd0a]
+            rounded-full
+            ${playerStatus.shuffle ? "flex" : "hidden"}
+          `}
+        ></div>
+      </div>
+
+      {/* Previous */}
+      <div
+        className="
+          hidden
+          md:flex
+          hover:scale-110
+          cursor-pointer
+          transition      
         "
       >
-        {/* Shuffle */}
-        <div
-          onClick={() => {
-            if (playerStatus.aLoop || playerStatus.sLoop) {
-              setPlayerStatus({ sh_status: false });
-            } else {
-              setPlayerStatus({ sh_status: !playerStatus.shuffle });
-            }
-          }}
-          className={`
-            hidden
-            md:flex
-            items-center
-            justify-center
-            ${
-              playerStatus.aLoop || playerStatus.sLoop
-                ? ""
-                : `hover:scale-110 cursor-pointer`
-            }
-            transition
-          `}
-        >
-          <CstmShuffleSolid
+        <AiFillStepBackward
+          size={30}
+          onClick={previous}
+          className="
+            text-neutral-400
+            hover:text-white
+          "
+        />
+      </div>
+
+      {/* Play && Pause  */}
+      <div
+        onClick={handlePlayPause}
+        className="
+          p-2
+          flex
+          items-center
+          justify-center
+          bg-white
+          rounded-full
+          cursor-pointer
+          hover:scale-110
+          transition
+        "
+      >
+        <Icon size={25} className="text-black" />
+      </div>
+
+      {/* Next */}
+      <div
+        className="
+          hidden
+          md:flex
+          hover:scale-110
+          cursor-pointer
+          transition
+        "
+      >
+        <AiFillStepForward
+          onClick={next}
+          size={30}
+          className="
+            text-neutral-400
+            hover:text-white
+          "
+        />
+      </div>
+
+      {/* Loop */}
+      <div
+        onClick={() => {
+          if (!playerStatus.aLoop && !playerStatus.sLoop) {
+            setPlayerStatus({
+              sh_status: false,
+              alp_status: !playerStatus.aLoop,
+            });
+          } else if (playerStatus.aLoop && !playerStatus.sLoop) {
+            setPlayerStatus({
+              sh_status: false,
+              alp_status: !playerStatus.aLoop,
+              slp_status: !playerStatus.sLoop,
+            });
+          } else if (!playerStatus.aLoop && playerStatus.sLoop) {
+            setPlayerStatus({
+              sh_status: false,
+              slp_status: !playerStatus.sLoop,
+            });
+          }
+        }}
+        className="
+          relative
+          hidden
+          md:flex
+          items-center
+          justify-center
+          hover:scale-110
+          cursor-pointer
+          transition
+        "
+      >
+        {/* Loop Icon */}
+        <div>
+          <CstmLoopSolid
             className={`
-              h-[28px]
-              w-[28px]
+              w-[25px]
+              h-[25px]
               ${
-                playerStatus.shuffle
-                  ? `text-[#00fd0a]`
-                  : `text-neutral-400
-                    ${
-                      playerStatus.aLoop || playerStatus.sLoop
-                        ? ""
-                        : "hover:text-white"
-                    }
+                playerStatus.aLoop || playerStatus.sLoop
+                  ? `
+                      text-[#00fd0a]
+                      hover:text-[#00fd0a]
+                  `
+                  : `
+                      text-neutral-400
+                      hover:text-white
+                      
                   `
               }
-            `}
-          />
-          <div
-            className={`
-              w-1
-              h-1
-              bg-[#00fd0a]
-              rounded-full
-              ${playerStatus.shuffle ? "flex" : "hidden"}
-            `}
-          ></div>
-        </div>
-
-        {/* Previous */}
-        <div
-          className="
-            hidden
-            md:flex
-            hover:scale-110
-            cursor-pointer
-            transition      
-        "
-        >
-          <AiFillStepBackward
-            size={30}
-            onClick={previous}
-            className="
-              text-neutral-400
-              hover:text-white
-            "
+          `}
           />
         </div>
 
-        {/* Play && Pause  */}
+        {/* Active Bullet */}
         <div
-          onClick={handlePlayPause}
-          className="
-            flex
-            items-center
-            justify-center
-            h-10
-            w-10
-            p-1
-            bg-white
-            rounded-full
-            cursor-pointer
-            hover:scale-110
-            transition
-          "
-        >
-          <Icon size={30} className="text-black" />
-        </div>
-
-        {/* Next */}
-        <div
-          className="
-            hidden
-            md:flex
-            hover:scale-110
-            cursor-pointer
-            transition
-        "
-        >
-          <AiFillStepForward
-            onClick={next}
-            size={30}
-            className="
-              text-neutral-400
-              hover:text-white
-            "
-          />
-        </div>
-
-        {/* Loop */}
-        <div
-          onClick={() => {
-            if (!playerStatus.aLoop && !playerStatus.sLoop) {
-              setPlayerStatus({
-                sh_status: false,
-                alp_status: !playerStatus.aLoop,
-              });
-            } else if (playerStatus.aLoop && !playerStatus.sLoop) {
-              setPlayerStatus({
-                sh_status: false,
-                alp_status: !playerStatus.aLoop,
-                slp_status: !playerStatus.sLoop,
-              });
-            } else if (!playerStatus.aLoop && playerStatus.sLoop) {
-              setPlayerStatus({
-                sh_status: false,
-                slp_status: !playerStatus.sLoop,
-              });
-            }
-          }}
-          className="
-            relative
-            hidden
-            md:flex
-            items-center
-            justify-center
-            hover:scale-110
-            cursor-pointer
-            transition
-        "
-        >
-          {/* Loop Icon */}
-          <div>
-            <CstmLoopSolid
-              className={`
-                w-[25px]
-                h-[25px]
-                ${
-                  playerStatus.aLoop || playerStatus.sLoop
-                    ? `
-                        text-[#00fd0a]
-                        hover:text-[#00fd0a]
-                    `
-                    : `
-                        text-neutral-400
-                        hover:text-white
-                        
-                    `
-                }
-            `}
-            />
-          </div>
-
-          {/* Active Bullet */}
-          <div
-            className={`
+          className={`
             absolute
             right-[1px]
             bottom-[6px]
@@ -213,27 +202,26 @@ const PlayerOperation: React.FC<PlayerOperationProps> = ({ sound }) => {
             rounded-full
             ${playerStatus.aLoop || playerStatus.sLoop ? "flex" : "hidden"}
             `}
-          ></div>
+        ></div>
 
-          {/* Single Loop Text */}
-          <div
-            className={`
+        {/* Single Loop Text */}
+        <div
+          className={`
             absolute
             left-[9px]
             top-[5px]
             ${playerStatus.sLoop ? "flex" : "hidden"}
-            `}
+          `}
+        >
+          <p
+            className="
+              text-[10px]
+              text-[#00fd0a]
+              font-semibold
+            "
           >
-            <p
-              className="
-                text-[10px]
-                text-[#00fd0a]
-                font-semibold
-                "
-            >
-              1
-            </p>
-          </div>
+            1
+          </p>
         </div>
       </div>
     </div>
