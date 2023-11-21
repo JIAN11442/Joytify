@@ -22,7 +22,7 @@ const VolumeSlider: React.FC<VolumeSliderProps> = ({ value = 1, onChange }) => {
         select-none
         touch-none
         w-full
-        h-3
+        h-4
       "
       defaultValue={[1]}
       value={[value]}
@@ -35,7 +35,7 @@ const VolumeSlider: React.FC<VolumeSliderProps> = ({ value = 1, onChange }) => {
         className="
           relative
           grow
-          h-[4px]
+          h-[3px]
           rounded-full
           bg-neutral-600
         "
@@ -45,7 +45,7 @@ const VolumeSlider: React.FC<VolumeSliderProps> = ({ value = 1, onChange }) => {
             absolute
             h-full        
             bg-white
-            group-hover:bg-green-500
+            group-hover:bg-[#00fd0a]
             rounded-full
             transition
           `}

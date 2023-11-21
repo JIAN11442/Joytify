@@ -1,9 +1,10 @@
-import { create } from "zustand";
 import { Howl } from "howler";
+import { create } from "zustand";
 
 interface usePlayerProps {
   activeId?: string;
   ids: string[];
+  prevSongId: string;
   playerWidth: number;
   playerHeight: number;
   volume: number;
@@ -14,6 +15,7 @@ interface usePlayerProps {
 
   setId: (id: string) => void;
   setIds: (ids: string[]) => void;
+  setPrevSongId: (id: string) => void;
   reset: () => void;
   setPlayerRef: (width: number, height: number) => void;
   setVolume: (value: number) => void;
@@ -30,6 +32,7 @@ interface usePlayerProps {
 const usePlayer = create<usePlayerProps>((set) => ({
   activeId: undefined,
   ids: [],
+  prevSongId: "",
   playerWidth: 0,
   playerHeight: 0,
   randomPlay: false,
@@ -43,6 +46,7 @@ const usePlayer = create<usePlayerProps>((set) => ({
 
   setId: (id: string) => set({ activeId: id }),
   setIds: (ids: string[]) => set({ ids: ids }),
+  setPrevSongId: (id: string) => set({ prevSongId: id }),
   reset: () => set({ activeId: undefined, ids: [] }),
   setPlayerRef: (width: number, height: number) =>
     set({ playerWidth: width, playerHeight: height }),

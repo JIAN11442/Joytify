@@ -9,9 +9,9 @@ const useSwitchSongs = () => {
     }
 
     const currentIndex = player.ids.findIndex((id) => id === player.activeId);
-    const nextSong = player.ids[(currentIndex + 1) % player.ids.length];
+    const nextSongId = player.ids[(currentIndex + 1) % player.ids.length];
 
-    player.setId(nextSong);
+    player.setId(nextSongId);
   };
 
   const previous = () => {

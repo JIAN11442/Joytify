@@ -1,19 +1,14 @@
-import { useEffect, useState } from "react";
-import {
-  PiSpeakerSimpleLow,
-  PiSpeakerSimpleHigh,
-  PiSpeakerSimpleX,
-} from "react-icons/pi";
+import { useEffect } from "react";
 
 import MediaItem from "./MediaItem";
 import LikeButton from "./LikeButton";
-import VolumeSlider from "./VolumeSlider";
 import PlayerOperation from "./PlayerOperation";
 import PlayerSlider from "./PlayerSlider";
 
 import { Song } from "@/types";
 import usePlayer from "@/hooks/usePlayer";
 import useSoundOperation from "@/hooks/useSoundOperation";
+import SoundOperation from "./SoundOperation";
 
 interface PlayerContentProps {
   song: Song;
@@ -21,27 +16,9 @@ interface PlayerContentProps {
 }
 
 const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
-  const { volume, setVolume, setSound, setDuration } = usePlayer();
-  const [previousVolume, setPreviousVolume] = useState(volume);
-
-  const VolumeIcon =
-    volume === 0
-      ? PiSpeakerSimpleX
-      : volume >= 0.5
-      ? PiSpeakerSimpleHigh
-      : PiSpeakerSimpleLow;
+  const { setSound, setDuration } = usePlayer();
 
   const { sound, duration } = useSoundOperation(songUrl);
-
-  // Handle Mute Volume
-  const toggleMute = () => {
-    if (volume) {
-      setPreviousVolume(volume);
-      setVolume(0);
-    } else {
-      setVolume(previousVolume);
-    }
-  };
 
   // When Click SongCard, Play the Songs Immediately
   useEffect(() => {
@@ -91,6 +68,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
           px-10
           justify-end
           md:justify-center
+          xl:px-2
         "
       >
         <div
@@ -126,26 +104,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
           pr-2
         "
       >
-        <div
-          className="
-            flex
-            w-[120px]
-            items-center
-            gap-x-2
-          "
-        >
-          <VolumeIcon
-            onClick={toggleMute}
-            size={30}
-            className="
-              text-neutral-400
-              hover:text-white
-              cursor-pointer
-              transition
-            "
-          />
-          <VolumeSlider value={volume} onChange={(value) => setVolume(value)} />
-        </div>
+        <SoundOperation />
       </div>
     </div>
   );

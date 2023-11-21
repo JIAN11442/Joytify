@@ -5,11 +5,12 @@ import { useEffect, useState } from "react";
 import { useDrag } from "react-dnd";
 import { getEmptyImage } from "react-dnd-html5-backend";
 
-import { ItemTypes, Song } from "@/types";
 import PlayButton from "./PlayButton";
+
+import { ItemTypes, Song } from "@/types";
 import usePlayer from "@/hooks/usePlayer";
-import useUploadImage from "@/hooks/useLoadImage";
 import useOnPlay from "@/hooks/useOnPlay";
+import useUploadImage from "@/hooks/useLoadImage";
 
 interface SongItemProps {
   song: Song;
@@ -18,13 +19,11 @@ interface SongItemProps {
 
 const SongItem: React.FC<SongItemProps> = ({ song, songs }) => {
   const imagePath = useUploadImage(song);
-  const { sound, activeId, isPlaying } = usePlayer();
+  const { sound, activeId, isPlaying, prevSongId, setPrevSongId } = usePlayer();
   const onPlay = useOnPlay(songs);
-  const [prevSongId, setPrevSongId] = useState<string>("");
 
   const handlePlayCard = () => {
-    console.log(activeId, prevSongId);
-    if (activeId === prevSongId) {
+    if (prevSongId === song.id) {
       if (!isPlaying) {
         sound?.play();
       } else {

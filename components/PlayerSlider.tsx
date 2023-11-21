@@ -1,6 +1,7 @@
-import usePlayer from "@/hooks/usePlayer";
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
+
+import usePlayer from "@/hooks/usePlayer";
 
 interface PlayerSliderProps {
   className?: string;
@@ -10,6 +11,7 @@ const PlayerSlider: React.FC<PlayerSliderProps> = ({ className }) => {
   const { duration, sound } = usePlayer();
   const [currTime, setCurrTime] = useState({ min: 0, sec: 0 });
   const [songTime, setSongTime] = useState({ min: 0, sec: 0 });
+  const [value, setValue] = useState<number>(0);
 
   useEffect(() => {
     if (sound) {
@@ -22,6 +24,7 @@ const PlayerSlider: React.FC<PlayerSliderProps> = ({ className }) => {
         const currSec = Math.floor(sound?.seek() % 60);
 
         setCurrTime({ min: currMin, sec: currSec });
+        setValue(sound.seek());
       }, 1000);
 
       return () => {
@@ -51,7 +54,7 @@ const PlayerSlider: React.FC<PlayerSliderProps> = ({ className }) => {
           min-w-[50px]
           items-center
           justify-center
-          text-sm
+          text-[13px]
           text-neutral-400
         "
       >
@@ -61,20 +64,36 @@ const PlayerSlider: React.FC<PlayerSliderProps> = ({ className }) => {
       </div>
 
       {/* TimeLine */}
-      <div
+      <input
+        type="range"
+        min={0}
+        value={value}
+        max={duration! / 1000}
+        step={1}
+        onChange={(e) => {
+          sound?.seek(parseInt(e.target.value));
+        }}
         className="
-          flex-1
+          appearance-none
+          rounded-lg
           w-full
-          h-1
-          rounded-full
-          bg-green-500
-        "
-      ></div>
+          cursor-pointer
+          overflow-hidden
+
+          [&::-webkit-slider-thumb]:appearance-none
+          [&::-webkit-slider-thumb]:w-[1px]
+          [&::-webkit-slider-thumb]:h-[3px]
+          [&::-webkit-slider-thumb]:rounded-lg
+          [&::-webkit-slider-thumb]:bg-[#00fd0a]
+          [&::-webkit-slider-thumb]:shadow-[-400px_10px_3px_400px_#00fd0a]
+          
+          "
+      />
 
       {/* End Time */}
       <div
         className="
-          text-sm
+          text-[13px]
           text-neutral-400
         "
       >

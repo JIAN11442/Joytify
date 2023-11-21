@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { HiHome } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
 import { twMerge } from "tailwind-merge";
@@ -39,7 +39,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songsByUserId }) => {
     [pathName]
   );
   const { isCollapse } = useCollapse();
-  const player = usePlayer();
+  const { activeId } = usePlayer();
 
   return (
     <div
@@ -51,7 +51,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songsByUserId }) => {
         pr-0
         gap-x-2
       `,
-        player.activeId && "h-[calc(100%-60px)]"
+        activeId && "h-[calc(100%-75px)]"
       )}
     >
       {/* Sidebar */}
