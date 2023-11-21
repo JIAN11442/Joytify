@@ -36,7 +36,7 @@ const Player = () => {
         w-full
         py-2
         px-4
-        shadow-[1px_0px_10px_2px_black]
+        shadow-[1px_0px_15px_5px_black]
       "
     >
       <PlayerContent key={songUrl} song={song} songUrl={songUrl} />

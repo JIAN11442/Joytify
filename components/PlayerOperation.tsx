@@ -204,13 +204,13 @@ const PlayerOperation: React.FC<PlayerOperationProps> = ({ sound }) => {
             `}
         ></div>
 
-        {/* Single Loop Text */}
+        {/* All or Single Loop Text */}
         <div
           className={`
             absolute
-            left-[9px]
-            top-[5px]
-            ${playerStatus.sLoop ? "flex" : "hidden"}
+            left-[8px]
+            top-[6px]
+            ${playerStatus.sLoop || playerStatus.aLoop ? "flex" : "hidden"}
           `}
         >
           <p
@@ -220,7 +220,8 @@ const PlayerOperation: React.FC<PlayerOperationProps> = ({ sound }) => {
               font-semibold
             "
           >
-            1
+            {playerStatus.aLoop && "A"}
+            {playerStatus.sLoop && "S"}
           </p>
         </div>
       </div>

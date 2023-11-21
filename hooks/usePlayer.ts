@@ -4,6 +4,7 @@ import { create } from "zustand";
 interface usePlayerProps {
   activeId?: string;
   ids: string[];
+  remainIds: string[];
   prevSongId: string;
   playerWidth: number;
   playerHeight: number;
@@ -15,6 +16,7 @@ interface usePlayerProps {
 
   setId: (id: string) => void;
   setIds: (ids: string[]) => void;
+  setRemainIds: (ids: string[]) => void;
   setPrevSongId: (id: string) => void;
   reset: () => void;
   setPlayerRef: (width: number, height: number) => void;
@@ -32,6 +34,7 @@ interface usePlayerProps {
 const usePlayer = create<usePlayerProps>((set) => ({
   activeId: undefined,
   ids: [],
+  remainIds: [],
   prevSongId: "",
   playerWidth: 0,
   playerHeight: 0,
@@ -45,7 +48,8 @@ const usePlayer = create<usePlayerProps>((set) => ({
   duration: null,
 
   setId: (id: string) => set({ activeId: id }),
-  setIds: (ids: string[]) => set({ ids: ids }),
+  setIds: (ids: string[]) => set({ ids: ids, remainIds: [...ids] }),
+  setRemainIds: (ids: string[]) => set({ remainIds: ids }),
   setPrevSongId: (id: string) => set({ prevSongId: id }),
   reset: () => set({ activeId: undefined, ids: [] }),
   setPlayerRef: (width: number, height: number) =>

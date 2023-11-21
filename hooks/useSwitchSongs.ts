@@ -1,39 +1,59 @@
+import { useState } from "react";
 import usePlayer from "./usePlayer";
 
 const useSwitchSongs = () => {
-  const player = usePlayer();
+  const { activeId, ids, setId } = usePlayer();
+  const [newIds, setNewIds] = useState<string[]>([...ids]);
 
   const next = () => {
-    if (player.ids.length === 0) {
+    if (ids.length === 0) {
       return;
     }
 
-    const currentIndex = player.ids.findIndex((id) => id === player.activeId);
-    const nextSongId = player.ids[(currentIndex + 1) % player.ids.length];
+    const currentIndex = ids.findIndex((id) => id === activeId);
+    const nextSongId = ids[(currentIndex + 1) % ids.length];
 
-    player.setId(nextSongId);
+    setId(nextSongId);
   };
 
   const previous = () => {
-    if (player.ids.length === 0) {
+    if (ids.length === 0) {
       return;
     }
 
-    const currentIndex = player.ids.findIndex((id) => id === player.activeId);
-    const previousSong = player.ids[currentIndex - 1];
+    const currentIndex = ids.findIndex((id) => id === activeId);
+    const previousSong = ids[currentIndex - 1];
 
     if (!previousSong) {
-      return player.setId(player.ids[player.ids.length - 1]);
+      return setId(ids[ids.length - 1]);
     }
 
-    player.setId(previousSong);
+    setId(previousSong);
   };
 
   const cycle = () => {};
 
+  const shuffle = () => {
+    if (ids.length === 0) {
+      return;
+    }
+
+    if (newIds.length === 1) {
+      setNewIds([...ids]);
+    }
+
+    const randomIndex = Math.floor(Math.random() * newIds.length);
+    const nextId = newIds.splice(randomIndex, 1)[0];
+
+    setId(nextId);
+    // console.log(`rid:${randomIndex}\nnid:${nextId}\n${ids}\n${newIds}`);
+  };
+
   return {
     next,
     previous,
+    cycle,
+    shuffle,
   };
 };
 
