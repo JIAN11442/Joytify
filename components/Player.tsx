@@ -6,8 +6,10 @@ import PlayerContent from "./PlayerContent";
 import usePlayer from "@/hooks/usePlayer";
 import useGetSongById from "@/hooks/useGetSongById";
 import useLoadSongUrl from "@/hooks/useLoadSongUrl";
+import { useUser } from "@/hooks/useUser";
 
 const Player = () => {
+  const { user } = useUser();
   const player = usePlayer();
   const playerRef = useRef<HTMLDivElement>(null);
   const { song } = useGetSongById(player.activeId);
@@ -22,7 +24,7 @@ const Player = () => {
   }, [player.activeId, playerRef.current]);
 
   // If activeId is not defined, the component will not be displayed
-  if (!player.activeId || !song || !songUrl) {
+  if (!player.activeId || !song || !songUrl || !user) {
     return null;
   }
 

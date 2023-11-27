@@ -13,6 +13,7 @@ import SidebarItem from "./SidebarItem";
 import useCollapse from "@/hooks/useCollapse";
 import usePlayer from "@/hooks/usePlayer";
 import LibraryHeader from "./LibraryHeader";
+import { useUser } from "@/hooks/useUser";
 
 interface SidebarProps {
   children?: React.ReactNode;
@@ -40,6 +41,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songsByUserId }) => {
   );
   const { isCollapse } = useCollapse();
   const { activeId } = usePlayer();
+  const { user } = useUser();
 
   return (
     <div
@@ -51,7 +53,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songsByUserId }) => {
         pr-0
         gap-x-2
       `,
-        activeId && "h-[calc(100%-75px)]"
+        activeId && user ? "h-[calc(100%-75px)]" : ""
       )}
     >
       {/* Sidebar */}

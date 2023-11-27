@@ -6,7 +6,7 @@ import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 import { twMerge } from "tailwind-merge";
 
 interface PlayButtonProps {
-  song: Song;
+  song?: Song;
   className?: string;
 }
 

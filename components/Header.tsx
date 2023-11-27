@@ -13,6 +13,7 @@ import { toast } from "react-hot-toast";
 import { useUser } from "@/hooks/useUser";
 import useAuthModal from "@/hooks/useAuthModal";
 import useCollapse from "@/hooks/useCollapse";
+import usePlayer from "@/hooks/usePlayer";
 
 interface HeaderProps {
   children: React.ReactNode;
@@ -24,7 +25,7 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
   const router = useRouter();
   const authModal = useAuthModal();
   const supabaseClient = useSupabaseClient();
-  const { isCollapse, setIsCollapse } = useCollapse();
+  const { isCollapse } = useCollapse();
 
   const handleLogout = async () => {
     const { error } = await supabaseClient.auth.signOut();

@@ -6,9 +6,11 @@ import { twMerge } from "tailwind-merge";
 import { Song } from "@/types";
 import useCollapse from "@/hooks/useCollapse";
 import useLoadImage from "@/hooks/useLoadImage";
+import usePlayer from "@/hooks/usePlayer";
 
 interface MediaItemProps {
   song: Song;
+  onClick?: (id: string) => void;
   collapseRounded?: boolean;
   hoverAnimated?: boolean;
   className?: string;
@@ -16,15 +18,26 @@ interface MediaItemProps {
 
 const MediaItem: React.FC<MediaItemProps> = ({
   song,
+  onClick,
   collapseRounded,
   hoverAnimated,
   className,
 }) => {
   const imagePath = useLoadImage(song);
   const { isCollapse } = useCollapse();
+  const { setId } = usePlayer();
+
+  const handleClick = () => {
+    if (onClick) {
+      return onClick(song.id);
+    }
+
+    return setId(song.id);
+  };
 
   return (
     <div
+      onClick={handleClick}
       className={twMerge(
         `
         flex
