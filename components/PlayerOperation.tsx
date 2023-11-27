@@ -13,7 +13,7 @@ interface PlayerOperationProps {
 
 const PlayerOperation: React.FC<PlayerOperationProps> = ({ sound }) => {
   const { isPlaying, playerStatus, setPlayerStatus } = usePlayer();
-  const { next, previous } = useSwitchSongs();
+  const { next, previous, shuffle } = useSwitchSongs();
 
   const Icon = isPlaying ? BsPauseFill : BsPlayFill;
   const handlePlayPause = () => {
@@ -69,8 +69,8 @@ const PlayerOperation: React.FC<PlayerOperationProps> = ({ sound }) => {
         />
         <div
           className={`
-            w-[3px]
-            h-[3px]
+            w-[2px]
+            h-[2px]
             bg-[#00fd0a]
             rounded-full
             ${playerStatus.shuffle ? "flex" : "hidden"}
@@ -90,7 +90,13 @@ const PlayerOperation: React.FC<PlayerOperationProps> = ({ sound }) => {
       >
         <AiFillStepBackward
           size={30}
-          onClick={previous}
+          onClick={() => {
+            if (playerStatus.shuffle) {
+              shuffle();
+            } else {
+              previous();
+            }
+          }}
           className="
             text-neutral-400
             hover:text-white
@@ -127,7 +133,13 @@ const PlayerOperation: React.FC<PlayerOperationProps> = ({ sound }) => {
         "
       >
         <AiFillStepForward
-          onClick={next}
+          onClick={() => {
+            if (playerStatus.shuffle) {
+              shuffle();
+            } else {
+              next();
+            }
+          }}
           size={30}
           className="
             text-neutral-400
@@ -190,39 +202,36 @@ const PlayerOperation: React.FC<PlayerOperationProps> = ({ sound }) => {
           />
         </div>
 
-        {/* Active Bullet */}
+        {/* Active Bullet && Text*/}
         <div
           className={`
             absolute
-            right-[1px]
+            right-[2px]
             bottom-[6px]
-            w-[3px]
-            h-[3px]
+            w-[2px]
+            h-[2px]
             bg-[#00fd0a]
             rounded-full
             ${playerStatus.aLoop || playerStatus.sLoop ? "flex" : "hidden"}
             `}
-        ></div>
-
-        {/* All or Single Loop Text */}
-        <div
-          className={`
-            absolute
-            left-[8px]
-            top-[6px]
+        >
+          {/* All or Single Loop Text */}
+          <div
+            className={`
             ${playerStatus.sLoop || playerStatus.aLoop ? "flex" : "hidden"}
           `}
-        >
-          <p
-            className="
+          >
+            <p
+              className="
               text-[10px]
               text-[#00fd0a]
               font-semibold
             "
-          >
-            {playerStatus.aLoop && "A"}
-            {playerStatus.sLoop && "S"}
-          </p>
+            >
+              {playerStatus.aLoop && "A"}
+              {playerStatus.sLoop && "S"}
+            </p>
+          </div>
         </div>
       </div>
     </div>

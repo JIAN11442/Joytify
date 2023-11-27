@@ -17,19 +17,18 @@ interface PlayerContentProps {
 
 const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   const { setSound, setDuration } = usePlayer();
-
   const { sound, duration } = useSoundOperation(songUrl);
 
   // When Click SongCard, Play the Songs Immediately
   useEffect(() => {
+    sound?.play();
     setSound(sound);
     setDuration(duration);
-    sound?.play();
 
     return () => {
       sound?.unload();
     };
-  }, [sound]);
+  }, [sound, setSound, setDuration]);
 
   return (
     <div

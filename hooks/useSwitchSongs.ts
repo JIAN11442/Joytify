@@ -31,8 +31,6 @@ const useSwitchSongs = () => {
     setId(previousSong);
   };
 
-  const cycle = () => {};
-
   const shuffle = () => {
     if (ids.length === 0) {
       return;
@@ -52,7 +50,6 @@ const useSwitchSongs = () => {
   return {
     next,
     previous,
-    cycle,
     shuffle,
   };
 };
