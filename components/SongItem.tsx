@@ -6,6 +6,7 @@ import { useDrag } from "react-dnd";
 import { getEmptyImage } from "react-dnd-html5-backend";
 
 import PlayButton from "./PlayButton";
+import SoundWave from "./SoundWave";
 
 import { ItemTypes, Song } from "@/types";
 import usePlayer from "@/hooks/usePlayer";
@@ -62,7 +63,13 @@ const SongItem: React.FC<SongItemProps> = ({ song, songs }) => {
         hover:shadow-green-500/80
         hover:scale-[1.03]
         transition
-        ${activeId === song.id && "shadow-green-500"}
+        ${
+          activeId === song.id
+            ? !isPlaying
+              ? `shadow-green-500 animate-pulse`
+              : `shadow-green-500`
+            : ""
+        }
       `}
     >
       {/* Image && PlayButton */}
@@ -101,34 +108,59 @@ const SongItem: React.FC<SongItemProps> = ({ song, songs }) => {
         </div>
       </div>
 
-      {/* Song Title */}
+      {/* Song Title && SoundWave && Song Author */}
       <div
         className="
-          pt-2
+          flex
+          flex-col
+          pt-1
+          gap-y-1
         "
       >
-        <p
+        {/* Song Title && SoundWave*/}
+        <div
           className="
-            text-[14px]
-            font-bold
-            truncate
+            flex
+            pr-4
+            items-center
+            justify-between
           "
         >
-          {song.title}
-        </p>
-      </div>
+          {/* Song Title */}
+          <div>
+            <p
+              className="
+              text-[14px]
+              font-bold
+              truncate
+            "
+            >
+              {song.title}
+            </p>
+          </div>
 
-      {/* Song Author */}
-      <div>
-        <p
-          className="
-            text-[13px]
-            text-neutral-400
-            truncate
-          "
-        >
-          {song.author}
-        </p>
+          {/* SoundWave */}
+          <div
+            className={`
+              ${song.id === activeId && isPlaying ? "flex" : "hidden"}
+            `}
+          >
+            <SoundWave color="#00fd0a" eachWidth={2} interval={4} />
+          </div>
+        </div>
+
+        {/* Song Author */}
+        <div>
+          <p
+            className="
+              text-[13px]
+              text-neutral-400
+              truncate
+            "
+          >
+            {song.author}
+          </p>
+        </div>
       </div>
     </div>
   );

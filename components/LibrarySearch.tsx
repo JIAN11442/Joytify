@@ -1,5 +1,5 @@
 import { FiSearch } from "react-icons/fi";
-import { use, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { animated, useSpring } from "react-spring";
 
 import Input from "./Input";

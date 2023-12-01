@@ -6,13 +6,16 @@ import usePlayer from "@/hooks/usePlayer";
 import useSwitchSongs from "@/hooks/useSwitchSongs";
 import CstmLoopSolid from "@/public/svgs/CstmLoopSolid.svg";
 import CstmShuffleSolid from "@/public/svgs/CstmShuffleSolid.svg";
+import LikeButton from "./LikeButton";
+import { Song } from "@/types";
 
 interface PlayerOperationProps {
   sound: Howl | null;
+  song: Song;
 }
 
-const PlayerOperation: React.FC<PlayerOperationProps> = ({ sound }) => {
-  const { isPlaying, playerStatus, setPlayerStatus } = usePlayer();
+const PlayerOperation: React.FC<PlayerOperationProps> = ({ sound, song }) => {
+  const { isPlaying, playerStatus, ids, setPlayerStatus } = usePlayer();
   const { next, previous, shuffle } = useSwitchSongs();
 
   const Icon = isPlaying ? BsPauseFill : BsPlayFill;
@@ -35,6 +38,9 @@ const PlayerOperation: React.FC<PlayerOperationProps> = ({ sound }) => {
         gap-x-2
       "
     >
+      {/* Like Button */}
+      <LikeButton song={song} />
+
       {/* Shuffle */}
       <div
         onClick={() => {
@@ -49,9 +55,18 @@ const PlayerOperation: React.FC<PlayerOperationProps> = ({ sound }) => {
           md:flex
           items-center
           justify-center
-          hover:scale-110
-          cursor-pointer
           transition
+          ${
+            ids.length > 1
+              ? `
+                  hover:scale-110
+                  cursor-pointer
+                `
+              : `
+                  opacity-50
+                  pointer-events-none
+                `
+          }
         `}
       >
         <CstmShuffleSolid
@@ -62,8 +77,7 @@ const PlayerOperation: React.FC<PlayerOperationProps> = ({ sound }) => {
               playerStatus.shuffle
                 ? `text-[#00fd0a]`
                 : `text-neutral-400
-                   hover:text-white
-                 `
+                   ${ids.length > 1 && `hover:text-white`}`
             }
           `}
         />
@@ -80,13 +94,19 @@ const PlayerOperation: React.FC<PlayerOperationProps> = ({ sound }) => {
 
       {/* Previous */}
       <div
-        className="
+        className={`
           hidden
           md:flex
-          hover:scale-110
-          cursor-pointer
-          transition      
-        "
+          transition
+          ${
+            ids.length > 1
+              ? `
+                  hover:scale-110 
+                  cursor-pointer
+                `
+              : `pointer-events-none`
+          }
+        `}
       >
         <AiFillStepBackward
           size={30}
@@ -97,10 +117,10 @@ const PlayerOperation: React.FC<PlayerOperationProps> = ({ sound }) => {
               previous();
             }
           }}
-          className="
+          className={`
             text-neutral-400
-            hover:text-white
-          "
+            ${ids.length > 1 ? `hover:text-white` : `opacity-50`}
+          `}
         />
       </div>
 
@@ -124,13 +144,19 @@ const PlayerOperation: React.FC<PlayerOperationProps> = ({ sound }) => {
 
       {/* Next */}
       <div
-        className="
+        className={`
           hidden
           md:flex
-          hover:scale-110
-          cursor-pointer
           transition
-        "
+          ${
+            ids.length > 1
+              ? `
+                  hover:scale-110
+                  cursor-pointer
+                `
+              : `pointer-events-none`
+          }
+        `}
       >
         <AiFillStepForward
           onClick={() => {
@@ -141,31 +167,35 @@ const PlayerOperation: React.FC<PlayerOperationProps> = ({ sound }) => {
             }
           }}
           size={30}
-          className="
+          className={`
             text-neutral-400
-            hover:text-white
-          "
+            ${ids.length > 1 ? `hover:text-white` : `opacity-50`}
+          `}
         />
       </div>
 
       {/* Loop */}
       <div
         onClick={() => {
-          if (!playerStatus.aLoop && !playerStatus.sLoop) {
+          if (!playerStatus.sLoop && !playerStatus.aLoop) {
             setPlayerStatus({
               sh_status: false,
-              alp_status: !playerStatus.aLoop,
+              slp_status: !playerStatus.sLoop,
             });
+          } else if (playerStatus.sLoop && !playerStatus.aLoop) {
+            if (ids.length > 1) {
+              setPlayerStatus({
+                slp_status: !playerStatus.sLoop,
+                alp_status: !playerStatus.aLoop,
+              });
+            } else {
+              setPlayerStatus({
+                slp_status: !playerStatus.sLoop,
+              });
+            }
           } else if (playerStatus.aLoop && !playerStatus.sLoop) {
             setPlayerStatus({
-              sh_status: false,
               alp_status: !playerStatus.aLoop,
-              slp_status: !playerStatus.sLoop,
-            });
-          } else if (!playerStatus.aLoop && playerStatus.sLoop) {
-            setPlayerStatus({
-              sh_status: false,
-              slp_status: !playerStatus.sLoop,
             });
           }
         }}

@@ -2,6 +2,7 @@ import getSongsByTitle from "@/actions/getSongsByTitle";
 import Header from "@/components/Header";
 import SearchInput from "@/components/SearchInput";
 import SearchContent from "./components/SearchContent";
+import SoundWave from "@/components/SoundWave";
 
 interface SearchProps {
   searchParams: {
@@ -36,7 +37,7 @@ const Search = async ({ searchParams }: SearchProps) => {
         "
         >
           {/* Search Title */}
-          <div className="mt-4">
+          <div className="mt-4 flex gap-x-4 items-center">
             <p className="text-3xl font-semibold">Search</p>
           </div>
           {/* Search Bar */}

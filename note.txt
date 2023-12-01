@@ -10,16 +10,10 @@ https://stackoverflow.com/questions/61430300/how-to-get-a-waveform-music-player-
 
 
 
-[Debug]
 
-1. Sidebar
-    a. Sidebar Library 中的 UserSongList 拖拉的時候會報錯
+[Debug - DONE]
 
-2. SongCard
-    a. 當音樂播放時，音樂卡片要隨著音律跳動
-    b. 也要有 Music Wave
-
-3. 播放器(OK)
+1. 播放器(OK)
     a. 隨機播放鍵：啟動時，下一首歌曲會隨意選擇
     b. 循環播放鍵：分兩段
         i. 第一段 -> 播完這首，接著按 id 播放下一首
@@ -28,9 +22,31 @@ https://stackoverflow.com/questions/61430300/how-to-get-a-waveform-music-player-
     d. 跳轉(左)：向前跳轉音樂
     d. 跳轉(右)：向後跳轉音樂
 
-4. 音樂卡排列
+2. 播放音樂(OK)
+    a. 點選卡片時，應該停止音樂
+
+-------------------------------------------------------------------------
+
+[Debug - UNDONE]
+
+1. Sidebar
+    a. Sidebar Library 中的 UserSongList 拖拉的時候會報錯
+
+2. SongCard
+    a. 當音樂播放時，音樂卡片要隨著音律跳動
+    b. 也要有 Music Wave
+
+3. 音樂卡排列
     a. 大卡片
     b. 列條
 
-5. 播放音樂(OK)
-    a. 點選卡片時，應該停止音樂
+4. loading.tsx (all pages)
+
+5. error.tsx (all pages)
+
+6. Sound Wave (Symbology - Opacity)
+    i. SongItem
+
+7. use-sound (search page / like page)
+    i. 注意切換ids
+

@@ -1,3 +1,4 @@
+import { Song } from "@/types";
 import { Howl } from "howler";
 import { create } from "zustand";
 
@@ -5,6 +6,8 @@ interface usePlayerProps {
   activeId?: string;
   ids: string[];
   remainIds: string[];
+  activeSong: Song | null;
+  activeSongUrl: string;
   prevSongId: string;
   playerWidth: number;
   playerHeight: number;
@@ -17,6 +20,8 @@ interface usePlayerProps {
   setId: (id: string) => void;
   setIds: (ids: string[]) => void;
   setRemainIds: (ids: string[]) => void;
+  setActiveSong: (song: Song) => void;
+  setActiveSongUrl: (url: string) => void;
   setPrevSongId: (id: string) => void;
   reset: () => void;
   setPlayerRef: (width: number, height: number) => void;
@@ -35,13 +40,15 @@ const usePlayer = create<usePlayerProps>((set) => ({
   activeId: undefined,
   ids: [],
   remainIds: [],
+  activeSong: null,
+  activeSongUrl: "",
   prevSongId: "",
   playerWidth: 0,
   playerHeight: 0,
   randomPlay: false,
   allLoopPlay: false,
   singleLoopPlay: false,
-  volume: 0.8,
+  volume: 0.5,
   isPlaying: false,
   playerStatus: { shuffle: false, aLoop: false, sLoop: false },
   sound: null,
@@ -50,6 +57,8 @@ const usePlayer = create<usePlayerProps>((set) => ({
   setId: (id: string) => set({ activeId: id }),
   setIds: (ids: string[]) => set({ ids: ids, remainIds: [...ids] }),
   setRemainIds: (ids: string[]) => set({ remainIds: ids }),
+  setActiveSong: (song: Song) => set({ activeSong: song }),
+  setActiveSongUrl: (url: string) => set({ activeSongUrl: url }),
   setPrevSongId: (id: string) => set({ prevSongId: id }),
   reset: () => set({ activeId: undefined, ids: [] }),
   setPlayerRef: (width: number, height: number) =>

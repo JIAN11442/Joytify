@@ -37,7 +37,7 @@ const useSoundOperation = (songUrl: string) => {
     // 這裡指定soundRef為sound，這樣就可以隨時更改soundRef.current.loop(連帶的改變sound的loop)
     soundRef.current = sound;
 
-    if (soundRef.current) {
+    if (soundRef.current && playerStatus.sLoop) {
       soundRef.current.loop(playerStatus.sLoop);
     }
 

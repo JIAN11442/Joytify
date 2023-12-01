@@ -1,4 +1,7 @@
 /** @type {import('next').NextConfig} */
+
+const webpack = require("webpack");
+
 const nextConfig = {
   images: {
     domains: ["ibkcwuenycxzhdzotcgt.supabase.co"],
@@ -9,6 +12,7 @@ const nextConfig = {
         test: /\.svg$/,
         use: [{ loader: "@svgr/webpack", options: { icon: true } }],
       });
+      // config.plugins.push(new webpack.ProvidePlugin({ p5: "p5" }));
     }
     return config;
   },

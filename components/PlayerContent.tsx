@@ -16,12 +16,16 @@ interface PlayerContentProps {
 }
 
 const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
-  const { setSound, setDuration } = usePlayer();
+  const { setSound, setDuration, setActiveSong, setActiveSongUrl } =
+    usePlayer();
   const { sound, duration } = useSoundOperation(songUrl);
 
   // When Click SongCard, Play the Songs Immediately
   useEffect(() => {
     sound?.play();
+
+    setActiveSong(song);
+    setActiveSongUrl(songUrl);
     setSound(sound);
     setDuration(duration);
 
@@ -40,7 +44,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
         justify-center
       "
     >
-      {/* MediaItem && LikeButton */}
+      {/* MediaItem */}
       <div
         className="
           flex
@@ -55,7 +59,6 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
           "
         >
           <MediaItem song={song} />
-          <LikeButton song={song} />
         </div>
       </div>
 
@@ -90,7 +93,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
 
           {/* Player Operation */}
           <div>
-            <PlayerOperation sound={sound} />
+            <PlayerOperation sound={sound} song={song} />
           </div>
         </div>
       </div>

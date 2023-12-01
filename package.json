@@ -42,6 +42,7 @@
     "typescript": "5.1.6",
     "uniqid": "^5.4.0",
     "use-sound": "^4.0.1",
+    "webpack": "^5.89.0",
     "zustand": "^4.3.9"
   },
   "devDependencies": {

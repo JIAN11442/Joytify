@@ -16,6 +16,7 @@ const UserSongsList: React.FC<UserSongListProps> = ({
   const { user } = useUser();
   const { isCollapse } = useCollapse();
   const onPlay = useOnPlay(songsByUserId);
+  // const { ids, activeId } = usePlayer();
 
   return (
     <div>
@@ -50,6 +51,7 @@ const UserSongsList: React.FC<UserSongListProps> = ({
                 <MediaItem
                   key={song.id}
                   song={song}
+                  onClick={(id: string) => onPlay(id)}
                   collapseRounded={true}
                   hoverAnimated={true}
                 />
