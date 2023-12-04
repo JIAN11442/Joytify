@@ -12,9 +12,10 @@ import useAuthModal from "@/hooks/useAuthModal";
 
 interface LikeButtonProps {
   song: Song;
+  borderColor?: string;
 }
 
-const LikeButton: React.FC<LikeButtonProps> = ({ song }) => {
+const LikeButton: React.FC<LikeButtonProps> = ({ song, borderColor }) => {
   const [isLiked, setIsLiked] = useState(false);
   const supabase = useSupabaseClient();
   const { user } = useUser();
@@ -39,7 +40,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({ song }) => {
       }
     };
     fetchLikedStatus();
-  }, [supabase, user?.id, song?.id]);
+  }, [supabase, user?.id, song?.id, isLiked]);
 
   // handleClick
   const handleLike = async () => {
@@ -87,7 +88,10 @@ const LikeButton: React.FC<LikeButtonProps> = ({ song }) => {
         transition
       "
     >
-      <Icon size={28} color={isLiked ? "#00fd0a" : "white"} />
+      <Icon
+        size={28}
+        color={isLiked ? "#00fd0a" : borderColor ? borderColor : "white"}
+      />
     </button>
   );
 };
