@@ -13,6 +13,7 @@ interface usePlayerProps {
   playerHeight: number;
   volume: number;
   isPlaying: boolean;
+  isEnded: boolean;
   playerStatus: { shuffle: boolean; aLoop: boolean; sLoop: boolean };
   sound: Howl | null;
   duration: number | null;
@@ -27,6 +28,7 @@ interface usePlayerProps {
   setPlayerRef: (width: number, height: number) => void;
   setVolume: (value: number) => void;
   setIsPlaying: (status: boolean) => void;
+  setIsEnded: (status: boolean) => void;
   setPlayerStatus: (status: {
     sh_status?: boolean | undefined;
     alp_status?: boolean | undefined;
@@ -50,6 +52,7 @@ const usePlayer = create<usePlayerProps>((set) => ({
   singleLoopPlay: false,
   volume: 0.5,
   isPlaying: false,
+  isEnded: false,
   playerStatus: { shuffle: false, aLoop: false, sLoop: false },
   sound: null,
   duration: null,
@@ -65,6 +68,7 @@ const usePlayer = create<usePlayerProps>((set) => ({
     set({ playerWidth: width, playerHeight: height }),
   setVolume: (value: number) => set({ volume: value }),
   setIsPlaying: (status: boolean) => set({ isPlaying: status }),
+  setIsEnded: (status: boolean) => set({ isEnded: status }),
   setPlayerStatus: ({ sh_status, alp_status, slp_status }) =>
     set((prevStatus) => ({
       playerStatus: {

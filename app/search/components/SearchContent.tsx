@@ -1,14 +1,21 @@
+"use client";
+
 import { FaPlay } from "react-icons/fa";
 
-import { Song } from "@/types";
 import MediaItem from "@/components/MediaItem";
 import LikeButton from "@/components/LikeButton";
+import SoundWave from "@/components/SoundWave";
+
+import { Song } from "@/types";
+import usePlayer from "@/hooks/usePlayer";
 
 interface SearchContentProps {
   songs: Song[];
 }
 
 const SearchContent: React.FC<SearchContentProps> = ({ songs }) => {
+  const { activeId, isEnded, isPlaying } = usePlayer();
+
   return (
     <div>
       {/* Songs List */}
@@ -41,35 +48,50 @@ const SearchContent: React.FC<SearchContentProps> = ({ songs }) => {
               <div
                 key={song.id}
                 className={`
-                    group
-                    flex
-                    flex-row
-                    w-full
-                    px-4
-                    gap-x-4
-                    items-center
-                    rounded-lg
-                    hover:bg-neutral-500/5
-                    cursor-pointer
+                  relative
+                  group
+                  flex
+                  flex-row
+                  w-full
+                  px-4
+                  gap-x-4
+                  items-center
+                  rounded-lg
+                  ${
+                    song.id === activeId && !isEnded
+                      ? "bg-gradient-animated"
+                      : "hover:bg-neutral-500/5"
+                  }
+                  cursor-pointer
                 `}
               >
-                {/* Index || PlayButton */}
+                {/* Index || PlayButton || SoundWave*/}
                 <div
                   className={`
                     flex
-                    w-[25px]
+                    w-[30px]
                     h-full
                     items-center
                     justify-center
                     overflow-hidden
                     transition
-                `}
+                  `}
                 >
                   {/* Index */}
                   <div
                     className={`
-                        text-neutral-400
-                        group-hover:hidden
+                      flex
+                      transition
+                      ${
+                        song.id === activeId && !isEnded
+                          ? `
+                              hidden
+                            `
+                          : `
+                            text-neutral-400
+                              group-hover:hidden
+                            `
+                      }
                     `}
                   >
                     {index + 1}
@@ -78,12 +100,37 @@ const SearchContent: React.FC<SearchContentProps> = ({ songs }) => {
                   {/* Play Button */}
                   <div
                     className={`
-                        hidden
-                        group-hover:flex
-                        hover:scale-110
+                    text-green-500
+                      transition
+                      ${
+                        song.id !== activeId
+                          ? `
+                              hidden
+                              group-hover:flex
+                              hover:scale-110
+                            `
+                          : !isPlaying && !isEnded
+                          ? `flex`
+                          : `hidden`
+                      }
                     `}
                   >
                     <FaPlay />
+                  </div>
+
+                  {/* SoundWave */}
+                  <div
+                    className={`
+                      absolute
+                      left-6
+                      ${
+                        song.id === activeId && isPlaying && !isEnded
+                          ? `flex`
+                          : `hidden`
+                      }
+                    `}
+                  >
+                    <SoundWave color="#00fd0a" eachWidth={2} interval={4} />
                   </div>
                 </div>
 

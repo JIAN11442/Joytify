@@ -6,7 +6,7 @@ import useSwitchSongs from "./useSwitchSongs";
 import { useEffect, useRef } from "react";
 
 const useSoundOperation = (songUrl: string) => {
-  const { volume, playerStatus, setIsPlaying } = usePlayer();
+  const { volume, playerStatus, setIsPlaying, setIsEnded } = usePlayer();
   const { next, shuffle } = useSwitchSongs();
   const soundRef = useRef<Howl | null>();
 
@@ -22,9 +22,11 @@ const useSoundOperation = (songUrl: string) => {
     volume: volume,
     onplay: () => {
       setIsPlaying(true);
+      setIsEnded(false);
     },
     onend: () => {
       setIsPlaying(false);
+      setIsEnded(true);
     },
     onpause: () => setIsPlaying(false),
     format: ["mp3"],

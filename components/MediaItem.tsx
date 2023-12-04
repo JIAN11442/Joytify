@@ -26,11 +26,23 @@ const MediaItem: React.FC<MediaItemProps> = ({
 }) => {
   const imagePath = useLoadImage(song);
   const { isCollapse } = useCollapse();
-  const { isPlaying, activeId } = usePlayer();
+  const { isPlaying, activeId, sound, isEnded } = usePlayer();
 
   const handleClick = () => {
     if (onClick) {
-      return onClick(song.id);
+      if (!sound && !isPlaying) {
+        onClick(song.id);
+      } else {
+        if (song.id === activeId) {
+          if (isPlaying) {
+            sound?.pause();
+          } else {
+            sound?.play();
+          }
+        } else {
+          onClick(song.id);
+        }
+      }
     }
   };
 
@@ -54,10 +66,9 @@ const MediaItem: React.FC<MediaItemProps> = ({
           isCollapse
             ? `
                 rounded-full
-                
                 ${
                   hoverAnimated
-                    ? song.id === activeId
+                    ? song.id === activeId && !isEnded
                       ? isPlaying
                         ? `
                             shadow-[1px_1px_8px_2px_rgba(0,0,0,0)]
@@ -80,9 +91,13 @@ const MediaItem: React.FC<MediaItemProps> = ({
             : `
                 ${
                   hoverAnimated
-                    ? `hover:bg-neutral-800/60
-                       hover:border-[rgba(34,197,94,0.8)]
-                        hover:scale-[1.02]`
+                    ? song.id === activeId && !isEnded
+                      ? `bg-gradient-animated`
+                      : `
+                        hover:bg-neutral-800/60
+                        hover:border-[rgba(34,197,94,0.8)]
+                          hover:scale-[1.02]
+                        `
                     : ``
                 }
                 rounded-lg

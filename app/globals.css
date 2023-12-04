@@ -30,3 +30,44 @@ body,
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 } */
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 100% 50%;
+  }
+  50% {
+    background-position: 10% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.bg-gradient-animated {
+  background: linear-gradient(
+    45deg,
+    rgba(23, 23, 23),
+    rgba(5, 46, 22),
+    rgba(20, 83, 45),
+    rgba(5, 46, 22),
+    rgba(23, 23, 23)
+  );
+  background-size: 200% 10%;
+  animation: gradientAnimation 8s infinite;
+}
+
+@keyframes colorAnimation {
+  0% {
+    background-color: rgba(23, 23, 23);
+  }
+  50% {
+    background-color: rgba(5, 46, 22, 0.5);
+  }
+  100% {
+    background-color: rgba(23, 23, 23);
+  }
+}
+
+.bg-color-animated {
+  animation: colorAnimation 8s infinite;
+}
