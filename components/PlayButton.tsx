@@ -7,12 +7,14 @@ import { twMerge } from "tailwind-merge";
 
 interface PlayButtonProps {
   song?: Song;
+  size?: number;
   className?: string;
 }
 
-const PlayButton: React.FC<PlayButtonProps> = ({ song, className }) => {
+const PlayButton: React.FC<PlayButtonProps> = ({ song, size, className }) => {
   const { activeId, isPlaying } = usePlayer();
   const Icon = song?.id === activeId && isPlaying ? BsPauseFill : BsPlayFill;
+  const Size = size ? size : 30;
 
   return (
     <button
@@ -32,7 +34,7 @@ const PlayButton: React.FC<PlayButtonProps> = ({ song, className }) => {
         className
       )}
     >
-      <Icon color="black" size={30} />
+      <Icon color="black" size={Size} />
     </button>
   );
 };

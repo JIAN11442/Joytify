@@ -2,12 +2,11 @@
 
 import queryString from "query-string";
 import { twMerge } from "tailwind-merge";
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useState, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 import Input from "./Input";
 import useDebounce from "@/hooks/useDebounce";
-import useFocus from "@/hooks/useFocus";
 import { SearchParams } from "@/types";
 
 interface SearchInputProps {
@@ -15,10 +14,7 @@ interface SearchInputProps {
   searchParams?: SearchParams;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({
-  className,
-  searchParams,
-}) => {
+const SearchInput: React.FC<SearchInputProps> = ({ className }) => {
   const [inputValue, setInputValue] = useState("");
   const debounceValue = useDebounce(inputValue, 300);
   const pathName = usePathname();

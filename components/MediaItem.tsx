@@ -3,17 +3,19 @@
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
 
+import SoundWave from "./SoundWave";
+
 import { Song } from "@/types";
 import useCollapse from "@/hooks/useCollapse";
 import useLoadImage from "@/hooks/useLoadImage";
 import usePlayer from "@/hooks/usePlayer";
-import SoundWave from "./SoundWave";
 
 interface MediaItemProps {
   song: Song;
   onClick?: (id: string) => void;
   collapseRounded?: boolean;
   hoverAnimated?: boolean;
+  bgColor?: string;
   className?: string;
 }
 
@@ -22,6 +24,7 @@ const MediaItem: React.FC<MediaItemProps> = ({
   onClick,
   collapseRounded,
   hoverAnimated,
+  bgColor,
   className,
 }) => {
   const imagePath = useLoadImage(song);
@@ -92,7 +95,7 @@ const MediaItem: React.FC<MediaItemProps> = ({
                 ${
                   hoverAnimated
                     ? song.id === activeId && !isEnded
-                      ? `bg-gradient-animated`
+                      ? `${bgColor ? bgColor : "bg-gradient-animated-green"}`
                       : `
                         hover:bg-neutral-800/60
                         hover:border-[rgba(34,197,94,0.8)]

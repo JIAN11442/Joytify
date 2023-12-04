@@ -43,7 +43,7 @@ body,
   }
 }
 
-.bg-gradient-animated {
+.bg-gradient-animated-green {
   background: linear-gradient(
     45deg,
     rgba(23, 23, 23),
@@ -53,7 +53,33 @@ body,
     rgba(23, 23, 23)
   );
   background-size: 200% 10%;
-  animation: gradientAnimation 8s infinite;
+  animation: gradientAnimation 6s infinite;
+}
+
+.bg-gradient-animated-blue {
+  background: linear-gradient(
+    45deg,
+    rgba(23, 23, 23),
+    rgba(23, 37, 84),
+    rgba(30, 58, 138),
+    rgba(23, 37, 84),
+    rgba(23, 23, 23)
+  );
+  background-size: 200% 10%;
+  animation: gradientAnimation 5s infinite;
+}
+
+.bg-gradient-animated-indigo {
+  background: linear-gradient(
+    45deg,
+    rgba(23, 23, 23),
+    rgba(30, 27, 75),
+    rgba(49, 46, 129),
+    rgba(30, 27, 75),
+    rgba(23, 23, 23)
+  );
+  background-size: 200% 10%;
+  animation: gradientAnimation 6s infinite;
 }
 
 @keyframes colorAnimation {

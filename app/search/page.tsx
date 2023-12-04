@@ -25,21 +25,15 @@ const Search = async ({ searchParams }: SearchProps) => {
     >
       <Header
         className="
-        from-blue-900
+          from-blue-900
         "
       >
-        <div
-          className="
-            flex
-            flex-col
-            gap-y-4        
-        "
-        >
-          {/* Search Title */}
-          <div className="mt-4 flex gap-x-4 items-center">
-            <p className="text-3xl font-semibold">Search</p>
-          </div>
-          {/* Search Bar */}
+        {/* Search Title */}
+        <div className="mb-2">
+          <h1 className="text-3xl font-semibold text-white">Search</h1>
+        </div>
+        {/* Search Bar */}
+        <div className="mt-4">
           <SearchInput searchParams={searchParams} />
         </div>
       </Header>

@@ -25,6 +25,12 @@ https://stackoverflow.com/questions/61430300/how-to-get-a-waveform-music-player-
 2. 播放音樂(OK)
     a. 點選卡片時，應該停止音樂
 
+6. Sound Wave (Symbology - Opacity)
+    i. SongItem
+
+7. use-sound (search page / like page)
+    i. 注意切換ids
+
 -------------------------------------------------------------------------
 
 [Debug - UNDONE]
@@ -44,9 +50,5 @@ https://stackoverflow.com/questions/61430300/how-to-get-a-waveform-music-player-
 
 5. error.tsx (all pages)
 
-6. Sound Wave (Symbology - Opacity)
-    i. SongItem
 
-7. use-sound (search page / like page)
-    i. 注意切換ids
 
