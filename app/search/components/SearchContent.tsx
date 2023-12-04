@@ -39,6 +39,7 @@ const SearchContent: React.FC<SearchContentProps> = ({ songs }) => {
           <div>
             {songs.map((song, index) => (
               <MediaItemList
+                key={song.id}
                 song={song}
                 index={index}
                 songs={songs}

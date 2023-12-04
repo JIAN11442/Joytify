@@ -20,6 +20,7 @@ const LikedContent: React.FC<LikedContentProps> = ({ likedSongs }) => {
     >
       {likedSongs.map((song, index) => (
         <MediaItemList
+          key={song.id}
           song={song}
           index={index}
           songs={likedSongs}

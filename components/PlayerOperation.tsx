@@ -39,7 +39,7 @@ const PlayerOperation: React.FC<PlayerOperationProps> = ({ sound, song }) => {
       "
     >
       {/* Like Button */}
-      <LikeButton song={song} />
+      <LikeButton song={song} borderColor="rgb(163,163,163)" />
 
       {/* Shuffle */}
       <div
